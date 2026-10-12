@@ -1,0 +1,341 @@
+/* Уменьшенная копия витрины (Storefront / ProductCard boutique из anyforms
+   Marketplace.module.css и ProductCard.module.css): те же переменные --shop-*
+   и те же пропорции, только размеры ужаты под колонку ~360px. Все цвета —
+   через var(--shop-…, запасной), как в стилях настоящей витрины. */
+
+.frame {
+  border: 1px solid rgba(17, 17, 17, 0.1);
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* «Окно браузера»: адрес витрины подсказывает, что это именно её страница. */
+.browserBar {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.45rem 0.7rem;
+  background: #f1f1f1;
+  border-bottom: 1px solid rgba(17, 17, 17, 0.08);
+}
+
+.browserDots {
+  display: inline-flex;
+  gap: 4px;
+  flex: 0 0 auto;
+}
+
+.browserDots span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #cfcfcf;
+}
+
+.browserUrl {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: #fff;
+  font-size: 0.68rem;
+  color: #8c8c8c;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.page {
+  padding: 8px 12px 18px;
+  font-size: 14px;
+  background: var(--shop-page-bg, #fff);
+  transition: background 0.2s ease;
+}
+
+/* ── Шапка-таблетка (SiteHeader с tint магазина) ── */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-height: 40px;
+  padding: 6px 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(17, 17, 17, 0.12);
+  border-color: color-mix(in srgb, var(--shop-header-fg, #fff) 18%, transparent);
+  background: var(--shop-header-tint, rgba(14, 14, 14, 0.8));
+  color: var(--shop-header-fg, #fff);
+  box-shadow: 0 8px 20px -12px rgba(0, 0, 0, 0.6);
+  box-sizing: border-box;
+}
+
+.logo {
+  display: block;
+  width: auto;
+  height: 26px;
+  max-width: 150px;
+  object-fit: contain;
+}
+
+/* Название текстом — как .logoText в SiteHeader: капс с разрядкой. */
+.logoText {
+  min-width: 0;
+  font-family: var(--shop-title-font, inherit);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.headerIcons {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex: 0 0 auto;
+}
+
+.headerIcons svg {
+  display: block;
+}
+
+/* ── Первый экран: заголовок + описание рядом с квадратным фото ── */
+.shopTitle {
+  margin: 0 0 0.55rem;
+  font-family: var(--shop-title-font, inherit);
+  font-size: 0.74rem;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: 0.18em;
+  text-transform: var(--shop-tagline-transform, uppercase);
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+  color: var(--shop-page-accent, var(--shop-accent, #111));
+}
+
+.divider {
+  position: relative;
+  display: block;
+  width: 44px;
+  height: 1px;
+  margin: 0 auto 0.3rem;
+  background: var(--shop-page-accent, var(--shop-accent, #111));
+  opacity: 0.5;
+}
+
+.divider::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 4px;
+  height: 4px;
+  background: var(--shop-page-accent, var(--shop-accent, #111));
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+/* Десктопная раскладка hero из anyforms: текст слева, фото справа,
+   кнопка к каталогу под текстом. */
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 44%);
+  grid-template-areas:
+    'title media'
+    'cta media';
+  column-gap: 14px;
+  row-gap: 10px;
+  margin: 18px 0 20px;
+}
+
+.heroTitleBlock {
+  grid-area: title;
+  align-self: end;
+  text-align: center;
+  min-width: 0;
+}
+
+.heroDescription,
+.introDescription {
+  margin: 0.55rem auto 0;
+  font-size: 0.6rem;
+  line-height: 1.6;
+  color: var(--shop-text, #555);
+  overflow-wrap: anywhere;
+  white-space: pre-line;
+  /* Описание до 600 символов — в превью хватает начала, остальное многоточием. */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 6;
+  overflow: hidden;
+}
+
+.heroMedia {
+  grid-area: media;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--shop-photo-bg, #f1f1f1);
+}
+
+/* Как на витрине: квадрат кадрируется с прижимом к верху кадра. */
+.heroImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.heroCta {
+  grid-area: cta;
+  align-self: start;
+  justify-self: center;
+  padding: 0.45rem 0.9rem;
+  border: 1px solid var(--shop-page-accent, var(--shop-accent, #111));
+  border-radius: 999px;
+  color: var(--shop-page-accent, var(--shop-accent, #111));
+  font-family: var(--shop-title-font, inherit);
+  font-size: 0.5rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.intro {
+  margin: 18px auto 16px;
+  max-width: 300px;
+  text-align: center;
+}
+
+.introDescription {
+  -webkit-line-clamp: 4;
+}
+
+/* «Каталог» / «О магазине» — тот же заголовок с разделителем-ромбом. */
+.sectionHead {
+  margin: 0 auto 12px;
+  text-align: center;
+}
+
+.sectionTitle {
+  margin: 0 0 0.5rem;
+  font-family: var(--shop-title-font, inherit);
+  font-size: 0.62rem;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--shop-page-accent, var(--shop-accent, #111));
+}
+
+/* ── Карточки товара: бутиковая подача (фото 3:4 без рамки) ── */
+.grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.card {
+  min-width: 0;
+}
+
+.photo {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 3 / 4;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--shop-photo-bg, #ece7dd);
+  color: var(--shop-text, #333);
+}
+
+.photoIcon {
+  opacity: 0.3;
+}
+
+.discountBadge {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  padding: 2px 5px;
+  border-radius: 4px;
+  background: var(--shop-accent, #9a3412);
+  color: var(--shop-cta-fg, #fff);
+  font-size: 0.5rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.preorderBadge {
+  position: absolute;
+  left: 6px;
+  bottom: 6px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(244, 238, 227, 0.94);
+  color: var(--shop-preorder-badge-fg, var(--shop-text, #444));
+  font-size: 0.46rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.cardName {
+  margin: 0.45rem 0 0.15rem;
+  padding: 0 1px;
+  font-family: var(--shop-title-font, inherit);
+  font-size: 0.68rem;
+  line-height: 1.35;
+  color: var(--shop-text, #333);
+}
+
+.prices {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0 1px;
+}
+
+.price {
+  font-size: 0.66rem;
+  font-weight: 500;
+  color: var(--shop-text, #333);
+}
+
+.crossedPrice {
+  font-size: 0.58rem;
+  color: #a9968e;
+  text-decoration: line-through;
+}
+
+/* ── «О магазине» под каталогом ── */
+.about {
+  margin-top: 20px;
+}
+
+.aboutText {
+  margin: 0 auto;
+  max-width: 300px;
+  font-size: 0.6rem;
+  line-height: 1.6;
+  text-align: center;
+  color: var(--shop-text, #555);
+  overflow-wrap: anywhere;
+  white-space: pre-line;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+}

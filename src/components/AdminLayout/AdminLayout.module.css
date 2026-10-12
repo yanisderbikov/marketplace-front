@@ -1,0 +1,371 @@
+.layout {
+  min-height: 100vh;
+}
+
+/* Словомарка платформы в шапке: текстом и строчными (бренд пишется только так) —
+   перебивает uppercase и разрядку .logoText из SiteHeader. */
+.brandWordmark {
+  display: inline-block;
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-transform: none;
+  color: #fff;
+}
+
+.userName {
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  white-space: nowrap;
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.burger {
+  display: none;
+}
+
+/* Левое меню — отдельная карточка в той же стилистике, что плавающая шапка:
+   12px от левого и нижнего края, 12px зазор под таблеткой шапки, скругление,
+   тонкая обводка и мягкая тень вместо сплошной белой полосы во всю высоту. */
+.sidebar {
+  position: fixed;
+  top: calc(86px + env(safe-area-inset-top, 0px));
+  left: 12px;
+  bottom: 12px;
+  z-index: 60;
+  width: 220px;
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  border-radius: 18px;
+  box-shadow: 0 12px 32px -14px rgba(0, 0, 0, 0.25);
+  padding: 1.25rem 1rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.section {
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sectionTitle {
+  margin: 0 0 0.35rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
+  color: #999;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  line-height: 1;
+  padding: 0.45rem 1rem;
+  border-radius: 999px;
+  font-size: 1rem;
+  color: #111;
+  text-decoration: none;
+  text-transform: lowercase;
+  transition: background 0.15s ease;
+}
+
+.navLink:hover {
+  background: #f1f1f1;
+}
+
+.navLinkActive {
+  background: #e5e5e5;
+  color: #111;
+  font-weight: 600;
+}
+
+.navLinkActive:hover {
+  background: #e5e5e5;
+}
+
+/* Низ меню: ссылка на витрину и выход прижаты к низу карточки. */
+.navBottom {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.storefrontLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  padding: 0.5rem 1rem;
+  border: 1px solid #111;
+  border-radius: 999px;
+  background: #111;
+  font-size: 1rem;
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+  text-transform: lowercase;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.storefrontLink:hover {
+  background: #8a8a8a;
+  border-color: #8a8a8a;
+}
+
+.logout {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  padding: 0.5rem 1rem;
+  border: 1px solid rgba(17, 17, 17, 0.12);
+  border-radius: 999px;
+  background: transparent;
+  font-size: 1rem;
+  color: #666;
+  cursor: pointer;
+  text-align: center;
+  text-transform: lowercase;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.logout:hover {
+  border-color: #b3261e;
+  color: #b3261e;
+}
+
+.content {
+  /* Отступ карточки от края + её ширина. */
+  margin-left: calc(220px + 12px);
+  padding-top: calc(90px + env(safe-area-inset-top, 0px));
+  min-width: 0;
+}
+
+/* Плашка готовности над страницей — по той же сетке, что .wrap страниц кабинета. */
+.bannerWrap {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1rem 12px 0;
+  box-sizing: border-box;
+}
+
+@media (min-width: 769px) {
+  .bannerWrap {
+    padding: 1.5rem 50px 0;
+  }
+}
+
+/* Кабинет не загрузился (сеть, 5xx): карточка по центру с повтором. */
+.loadError {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  box-sizing: border-box;
+}
+
+.loadErrorCard {
+  width: 100%;
+  max-width: 420px;
+  background: #fff;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  border-radius: 18px;
+  box-shadow: 0 12px 32px -14px rgba(0, 0, 0, 0.25);
+  padding: 1.5rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.loadErrorTitle {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111;
+  text-transform: lowercase;
+}
+
+.loadErrorText {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: #555;
+}
+
+.loadErrorActions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.retry {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  padding: 0.5rem 1.2rem;
+  border: 1px solid #111;
+  border-radius: 999px;
+  background: #111;
+  font-size: 1rem;
+  font-family: inherit;
+  color: #fff;
+  cursor: pointer;
+  text-transform: lowercase;
+}
+
+.retry:hover {
+  background: #8a8a8a;
+  border-color: #8a8a8a;
+}
+
+.backdrop {
+  display: none;
+}
+
+.drawer {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .sidebar {
+    display: none;
+  }
+
+  .content {
+    margin-left: 0;
+  }
+
+  .userName {
+    display: none;
+  }
+
+  /* Бургер в левом слоте шапки, перед логотипом: дровер открывается слева,
+     и кнопка стоит у того же края. */
+  .burger {
+    display: flex;
+    order: -1;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 41px;
+    height: 41px;
+    padding: 10px 9px;
+    border: none;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.12);
+    cursor: pointer;
+    box-sizing: border-box;
+  }
+
+  .burgerLine {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: #fff;
+    border-radius: 2px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+
+  .burgerLineTop {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .burgerLineHidden {
+    opacity: 0;
+  }
+
+  .burgerLineBottom {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  /* Затемнение на весь экран: шапка-таблетка лежит выше по z-index, а если
+     начинать подложку под ней, вокруг таблетки остаётся светлая полоса. */
+  /* Подложка и дровер отрендерены всегда, открытие переключается классом —
+     так работает анимация и на выезд, и на уезд. В закрытом виде visibility
+     hidden убирает их из фокуса и кликов; visibility переключается с задержкой,
+     чтобы уезжающий дровер был виден до конца. */
+  .backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    background: rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0s linear 0.25s;
+  }
+
+  .backdropOpen {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.25s ease, visibility 0s;
+  }
+
+  /* Дровер на телефоне — та же карточка, что и сайдбар на десктопе.
+     Выезжает слева: уезжает за край с лёгким уменьшением и затуханием,
+     возвращается с пружинящей кривой. */
+  .drawer {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: calc(86px + env(safe-area-inset-top, 0px));
+    left: 12px;
+    bottom: 12px;
+    z-index: 60;
+    width: 260px;
+    max-width: calc(80vw - 12px);
+    background: #fff;
+    border: 1px solid rgba(17, 17, 17, 0.08);
+    border-radius: 18px;
+    padding: 1.25rem 1rem;
+    box-sizing: border-box;
+    overflow-y: auto;
+    box-shadow: 0 16px 40px -16px rgba(0, 0, 0, 0.35);
+    transform: translateX(calc(-100% - 24px)) scale(0.96);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      transform 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 0.22s ease,
+      visibility 0s linear 0.28s;
+  }
+
+  .drawerOpen {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+    visibility: visible;
+    transition:
+      transform 0.36s cubic-bezier(0.22, 1.1, 0.36, 1),
+      opacity 0.2s ease,
+      visibility 0s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backdrop,
+  .backdropOpen,
+  .drawer,
+  .drawerOpen {
+    transition-duration: 0.01ms;
+  }
+}

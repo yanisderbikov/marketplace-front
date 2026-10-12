@@ -1,0 +1,393 @@
+/* Вкладка «Дизайн» — стиль карточки товара anyforms (AdminProductEdit.module.css):
+   белые карточки-секции со строчными заголовками, поля со скруглением 12px,
+   чёрные кнопки-пилюли. Справа (на широком экране) — липкое превью витрины. */
+
+.wrap {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1rem 12px 3rem;
+  box-sizing: border-box;
+}
+
+@media (min-width: 769px) {
+  .wrap {
+    padding: 1.5rem 50px 3rem;
+  }
+}
+
+/* Узкий экран: шапка, название и цвет, превью (сразу видно, как лёг цвет),
+   затем картинки и тексты. */
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas:
+    'head'
+    'main'
+    'preview'
+    'rest';
+  column-gap: 1.25rem;
+}
+
+.pageHead {
+  grid-area: head;
+}
+
+.main {
+  grid-area: main;
+}
+
+.previewArea {
+  grid-area: preview;
+  min-width: 0;
+  margin-bottom: 1rem;
+}
+
+.rest {
+  grid-area: rest;
+  min-width: 0;
+}
+
+/* Широкий экран (сайдбар кабинета + две колонки): превью справа на всю высоту
+   формы и прилипает под плавающей шапкой, пока листаешь поля. */
+@media (min-width: 1180px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr) 360px;
+    grid-template-areas:
+      'head head'
+      'main preview'
+      'rest preview';
+    align-items: start;
+  }
+
+  .previewArea {
+    position: sticky;
+    top: calc(90px + env(safe-area-inset-top, 0px));
+    margin-bottom: 0;
+  }
+}
+
+/* ---------- Шапка страницы ---------- */
+
+.pageHead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.headTitles {
+  min-width: 0;
+  flex: 1 1 320px;
+}
+
+.title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0;
+  color: #111;
+  text-transform: lowercase;
+}
+
+.subtitle {
+  margin: 0.2rem 0 0;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: #8c8c8c;
+}
+
+.headActions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+/* «Открыть витрину ↗» — серая пилюля, как ссылка на витрину в списке товаров. */
+.shopLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1rem;
+  border-radius: 999px;
+  background: #f1f1f1;
+  color: #111;
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  text-transform: lowercase;
+  white-space: nowrap;
+  transition: background 0.2s ease;
+}
+
+.shopLink:hover {
+  background: #fff;
+}
+
+/* ---------- Карточки-секции ---------- */
+
+.card,
+.previewCard {
+  background: #fff;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  border-radius: 18px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.previewCard {
+  padding: 1rem;
+  margin-bottom: 0;
+}
+
+@media (max-width: 560px) {
+  .card {
+    padding: 1.1rem 1rem;
+  }
+}
+
+.cardTitle {
+  margin: 0;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid rgba(17, 17, 17, 0.08);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #111;
+  text-transform: lowercase;
+}
+
+.hint {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: #8c8c8c;
+}
+
+/* ---------- Поля ---------- */
+
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #555;
+  text-transform: lowercase;
+}
+
+.labelRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.counter {
+  flex: 0 0 auto;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #b0b0b0;
+  font-variant-numeric: tabular-nums;
+}
+
+.counterWarn {
+  color: #b3541e;
+}
+
+.input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid rgba(17, 17, 17, 0.12);
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: #111;
+  background: #fff;
+  font-family: inherit;
+  text-transform: none;
+  outline: none;
+}
+
+.input:focus {
+  border-color: #111;
+  box-shadow: 0 0 0 3px rgba(17, 17, 17, 0.08);
+}
+
+.input::placeholder {
+  color: #b0b0b0;
+}
+
+.inputError,
+.inputError:focus {
+  border-color: #b3261e;
+  box-shadow: 0 0 0 3px rgba(179, 38, 30, 0.1);
+}
+
+.textarea {
+  resize: none;
+  overflow: hidden;
+  line-height: 1.5;
+}
+
+.fieldHint {
+  font-size: 0.78rem;
+  font-weight: 400;
+  line-height: 1.45;
+  color: #8c8c8c;
+  text-transform: none;
+}
+
+.fieldError {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #b3261e;
+  text-transform: none;
+}
+
+/* ---------- Цвет ---------- */
+
+.colorRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+}
+
+.swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Свотч — круг с белым зазором: выбранный обводится чёрным кольцом. */
+.swatch {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px rgba(17, 17, 17, 0.15);
+  cursor: pointer;
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.swatch:hover {
+  transform: scale(1.08);
+}
+
+.swatch:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px #111, 0 0 0 5px rgba(17, 17, 17, 0.12);
+}
+
+.swatchActive,
+.swatchActive:focus-visible {
+  box-shadow: 0 0 0 2px #111;
+}
+
+.customColor {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Нативная палитра браузера в круглой рамке — в один ряд со свотчами. */
+.colorPicker {
+  position: relative;
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(17, 17, 17, 0.12);
+  cursor: pointer;
+}
+
+.colorPicker input {
+  position: absolute;
+  inset: -8px;
+  width: calc(100% + 16px);
+  height: calc(100% + 16px);
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.colorPicker:focus-within {
+  border-color: #111;
+  box-shadow: 0 0 0 3px rgba(17, 17, 17, 0.08);
+}
+
+.hexInput {
+  width: 7.5rem;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  font-size: 0.9rem;
+  text-transform: lowercase;
+}
+
+/* ---------- Картинки ---------- */
+
+.imagesRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+  align-items: start;
+}
+
+/* ---------- Сохранение ---------- */
+
+.footActions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 0.6rem 1rem;
+  margin-top: 1.25rem;
+}
+
+.saveState {
+  font-size: 0.82rem;
+  color: #8c8c8c;
+}
+
+.saveStateDirty {
+  color: #8a6d00;
+  font-weight: 600;
+}
+
+.saveBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  padding: 0.7rem 1.6rem;
+  background: #111;
+  color: #fff;
+  border: 1px solid #111;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  text-transform: lowercase;
+  white-space: nowrap;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.saveBtn:hover:not(:disabled) {
+  background: #8a8a8a;
+  border-color: #8a8a8a;
+}
+
+.saveBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

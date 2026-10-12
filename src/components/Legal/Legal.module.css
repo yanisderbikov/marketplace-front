@@ -1,0 +1,165 @@
+/* Юр-страницы — перенос anyforms LegalPage.module.css: нейтральный текст,
+   без акцентов лендингов. Две обёртки:
+   - .platformPage — политика платформы (/privacy): белая страница со своей
+     тёмной шапкой, как LegalPage в anyforms;
+   - .shopPage — оферта и политика витрины (/shop/:slug/offer|privacy): белая
+     карточка на фоне темы магазина; шапку и подвал рисует StorefrontLayout. */
+
+.platformPage,
+.shopPage {
+  --ink: #161616;
+  --muted: rgba(22, 22, 22, 0.62);
+  --line: rgba(22, 22, 22, 0.14);
+
+  width: 100%;
+  color: var(--ink);
+  font-family: 'Roboto', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+}
+
+.platformPage {
+  --header-h: 78px;
+
+  min-height: 100vh;
+  padding-top: var(--header-h);
+  background: #fff;
+}
+
+/* Полупрозрачный тёмный, чтобы блюр общей шапки работал на белой странице. */
+.platformPage :global(header) {
+  background: rgba(22, 22, 22, 0.78);
+}
+
+/* Словомарка платформы строчными (перебивает uppercase .logoText из SiteHeader). */
+.brandWordmark {
+  display: inline-block;
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-transform: none;
+  color: #fff;
+}
+
+.main {
+  padding: 48px 0 80px;
+}
+
+.inner {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 18px;
+  box-sizing: border-box;
+}
+
+.shopPage {
+  padding: 28px 14px 64px;
+  background: var(--shop-page-bg, #fff);
+}
+
+.shopCard {
+  max-width: 820px;
+  margin: 0 auto;
+  background: #fff;
+  border: 1px solid #e2e2e2;
+  border-radius: 22px;
+  padding: 28px 22px 32px;
+  box-sizing: border-box;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.title {
+  font-weight: 700;
+  font-size: clamp(26px, 5vw, 40px);
+  line-height: 1.1;
+  margin: 14px 0 0;
+  overflow-wrap: anywhere;
+}
+
+/* На витрине заголовок — в цвет акцента магазина, как заголовки чекаута. */
+.shopPage .title {
+  color: var(--shop-heading, var(--ink));
+  font-family: var(--shop-title-font, inherit);
+}
+
+.updated {
+  font-size: 13px;
+  color: var(--muted);
+  margin: 12px 0 0;
+}
+
+/* Предупреждение над документом (продавец не заполнил реквизиты, оператор платформы не указан). */
+.notice {
+  margin: 20px 0 0;
+  padding: 10px 14px;
+  font-size: 14px;
+  line-height: 1.5;
+  background: var(--shop-note-bg, #f4f4f4);
+  border: 1px solid var(--shop-note-border, #e0e0e0);
+  border-left: 4px solid var(--shop-badge-bg, #8c8c8c);
+  border-radius: 10px;
+  color: var(--shop-note-text, #3a3a3a);
+}
+
+.body {
+  margin-top: 32px;
+}
+
+.body p {
+  font-size: clamp(15px, 2.2vw, 17px);
+  line-height: 1.7;
+  margin: 0 0 16px;
+  overflow-wrap: anywhere;
+}
+
+.h2 {
+  font-weight: 700;
+  font-size: clamp(18px, 3vw, 22px);
+  margin: 34px 0 14px;
+}
+
+.backWrap {
+  margin: 44px 0 0;
+}
+
+.back {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 2px;
+}
+
+.shopPage .back {
+  color: var(--shop-accent, var(--ink));
+}
+
+.back:hover {
+  opacity: 0.6;
+}
+
+@media (min-width: 560px) {
+  .inner {
+    padding: 0 28px;
+  }
+}
+
+@media (min-width: 720px) {
+  .shopPage {
+    padding: 48px 28px 80px;
+  }
+
+  .shopCard {
+    padding: 40px 44px 44px;
+  }
+}

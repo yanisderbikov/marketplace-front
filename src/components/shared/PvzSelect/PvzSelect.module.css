@@ -1,0 +1,59 @@
+/* Стили поиска ПВЗ — перенос из checkout.module.css anyforms (поле ввода +
+   выпадающий список + выбранный пункт). Акцент фокуса — цвет темы витрины,
+   в кабинете (без темы) — чёрный. */
+
+.input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.85rem 0.85rem;
+  font-size: 0.96rem;
+  font-family: inherit;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background: #fff;
+  color: var(--color-base-black);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+.input:focus { border-color: var(--shop-accent, var(--color-base-black)); }
+.inputError { border-color: #c62828; }
+.inputError:focus { border-color: #b71c1c; }
+/* Выбор временно недоступен (в настройках — пока сохраняется соседняя форма). */
+.input:disabled { background: #f4f4f4; color: #8c8c8c; cursor: not-allowed; }
+
+/* PVZ combobox */
+.pvzWrap { position: relative; }
+.pvzDropdown {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 4px);
+  left: 0; right: 0;
+  max-height: 280px;
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.14);
+}
+.pvzOption { padding: 11px 14px; cursor: pointer; border-bottom: 1px solid #f0f0f0; }
+.pvzOption:last-child { border-bottom: none; }
+.pvzOption:hover, .pvzOptionActive { background: #f5f5f5; }
+.pvzOptionAddr { font-size: 0.95rem; color: var(--color-base-black); }
+.pvzOptionMeta { font-size: 0.78rem; color: #8c8c8c; margin-top: 2px; }
+.pvzStatus { padding: 12px 14px; font-size: 0.88rem; color: #8c8c8c; }
+/* Поиск не удался (сеть, сбой сервера) — не путать с «ничего не нашли». */
+.pvzStatusError { color: #b71c1c; }
+.pvzRetry {
+  padding: 0; border: none; background: none; font: inherit; color: inherit;
+  text-decoration: underline; text-underline-offset: 2px; cursor: pointer; white-space: nowrap;
+}
+
+.pvzSelected {
+  display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;
+  background: #f4f4f4; border: 1px solid #e0e0e0;
+  border-radius: 10px; padding: 12px 14px; margin-top: 8px;
+}
+.pvzSelectedAddr { font-size: 0.95rem; font-weight: 600; color: var(--color-base-black); }
+.pvzSelectedMeta { font-size: 0.82rem; color: #8c8c8c; margin-top: 2px; }
+.pvzChange { background: none; border: none; color: var(--color-base-black); font-size: 0.88rem; cursor: pointer; white-space: nowrap; text-decoration: underline; }
+.pvzChange:disabled { color: #8c8c8c; cursor: not-allowed; }

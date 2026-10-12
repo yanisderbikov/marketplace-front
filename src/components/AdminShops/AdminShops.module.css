@@ -1,0 +1,448 @@
+/* Стиль страниц кабинета anyforms: шапка и toolbar — как AdminProducts,
+   таблица — как в ShopSalesReport, бейджи и кнопки — как AdminUsers. */
+
+.wrap {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1rem 12px 3rem;
+  box-sizing: border-box;
+}
+
+@media (min-width: 769px) {
+  .wrap {
+    padding: 1.5rem 50px 3rem;
+  }
+}
+
+.pageHead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0;
+  color: #111;
+  text-transform: lowercase;
+}
+
+.subtitle {
+  margin: 0.2rem 0 0;
+  font-size: 0.85rem;
+  color: #8c8c8c;
+}
+
+.refreshBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: #fff;
+  color: #111;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s ease;
+}
+
+.refreshBtn:hover:not(:disabled) {
+  background: #f1f1f1;
+}
+
+.refreshBtn:disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+
+.refreshBtn svg {
+  display: block;
+}
+
+.spinning {
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Фильтры: поиск и статус в одной строке. */
+.toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  padding: 0.75rem;
+  background: #fff;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  border-radius: 18px;
+  margin-bottom: 1rem;
+}
+
+.search {
+  flex: 1 1 220px;
+  min-width: 0;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.9rem;
+  font-family: inherit;
+  color: #111;
+  background: #fff;
+  border: 1px solid rgba(17, 17, 17, 0.12);
+  border-radius: 999px;
+  outline: none;
+}
+
+.search:focus {
+  border-color: #111;
+  box-shadow: 0 0 0 3px rgba(17, 17, 17, 0.08);
+}
+
+.statusTabs {
+  display: inline-flex;
+  padding: 3px;
+  background: #f1f1f1;
+  border-radius: 999px;
+}
+
+.tab {
+  padding: 0.4rem 0.9rem;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-family: inherit;
+  color: #555;
+  cursor: pointer;
+  text-transform: lowercase;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.tab:hover {
+  color: #111;
+}
+
+.tabActive {
+  background: #fff;
+  color: #111;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+.banner {
+  margin: 0 0 1rem;
+  padding: 0.7rem 1rem;
+  border-radius: 14px;
+  font-size: 0.9rem;
+}
+
+.bannerError {
+  background: #fdecea;
+  color: #b3261e;
+}
+
+.listCount {
+  margin: 0 0 0.75rem;
+  font-size: 0.85rem;
+  color: #8c8c8c;
+  text-transform: lowercase;
+}
+
+.message {
+  margin: 0;
+  padding: 2rem 0;
+  color: #8c8c8c;
+  text-align: center;
+}
+
+/* Таблица. Обёртка со скроллом — страховка для промежуточных ширин,
+   на телефоне строки превращаются в карточки (см. медиазапрос ниже). */
+.tableWrap {
+  width: 100%;
+  overflow-x: auto;
+  background: #fff;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  border-radius: 18px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.88rem;
+}
+
+.table th {
+  padding: 0.6rem 0.7rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #888;
+  text-transform: lowercase;
+  white-space: nowrap;
+  border-bottom: 1px solid rgba(17, 17, 17, 0.1);
+}
+
+.thName {
+  text-align: left;
+}
+
+.thNum {
+  text-align: right;
+}
+
+.thCenter {
+  text-align: center;
+}
+
+.table td {
+  padding: 0.7rem;
+  border-bottom: 1px solid rgba(17, 17, 17, 0.05);
+  color: #111;
+  vertical-align: middle;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.table tbody tr {
+  transition: opacity 0.15s ease, background 0.15s ease;
+}
+
+.table tbody tr:hover {
+  background: #fafafa;
+}
+
+.rowBusy {
+  opacity: 0.55;
+}
+
+/* Выключенный магазин приглушаем, но переключатель остаётся ярким. */
+.rowOff td:not(.tdToggle) {
+  color: #8c8c8c;
+}
+
+.tdShop {
+  min-width: 180px;
+}
+
+/* Строчный элемент, а не flex: у длинного названия стрелка идёт сразу за
+   последним словом, а не прижимается к правому краю ячейки. */
+.shopLink {
+  display: inline;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: inherit;
+  text-decoration: none;
+  word-break: break-word;
+}
+
+.shopLink:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.shopLinkArrow {
+  margin-left: 0.3rem;
+  font-size: 0.8rem;
+  color: #8c8c8c;
+}
+
+.slug {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.78rem;
+  color: #8c8c8c;
+}
+
+.tdText {
+  text-align: left;
+}
+
+.email {
+  word-break: break-all;
+}
+
+.tdNum {
+  text-align: right;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.tdToggle {
+  text-align: center;
+}
+
+.badge {
+  display: inline-block;
+  padding: 2px 9px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  border-radius: 999px;
+  white-space: nowrap;
+  text-transform: lowercase;
+}
+
+.badgeOn {
+  color: #fff;
+  background: #1a7f37;
+}
+
+.badgeIdle {
+  color: #555;
+  background: #f1f1f1;
+}
+
+/* Переключатель активности: чёрный — включён, серый — выключен. */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 26px;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: #d4d4d4;
+  cursor: pointer;
+  vertical-align: middle;
+  transition: background 0.2s ease;
+}
+
+.switch:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(17, 17, 17, 0.2);
+}
+
+.switch:disabled {
+  cursor: progress;
+}
+
+.switchOn {
+  background: #111;
+}
+
+.switchKnob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease;
+}
+
+.switchOn .switchKnob {
+  transform: translateX(18px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .switch,
+  .switchKnob {
+    transition: none;
+  }
+}
+
+/* Телефон: каждая строка — карточка. Название магазина — шапка карточки,
+   остальные ячейки — «подпись: значение» (подпись из data-label). */
+@media (max-width: 760px) {
+  .tableWrap {
+    overflow: visible;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+  }
+
+  .table,
+  .table tbody,
+  .table tr,
+  .table td {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .table thead {
+    display: none;
+  }
+
+  .table tbody {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .table tbody tr {
+    padding: 0.4rem 1rem 0.6rem;
+    background: #fff;
+    border: 1px solid rgba(17, 17, 17, 0.08);
+    border-radius: 18px;
+  }
+
+  .table tbody tr:hover {
+    background: #fff;
+  }
+
+  .table td {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.35rem 0;
+    text-align: right;
+  }
+
+  .table td::before {
+    content: attr(data-label);
+    flex: none;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #888;
+    text-transform: lowercase;
+    text-align: left;
+  }
+
+  .table td.tdShop {
+    display: block;
+    min-width: 0;
+    padding: 0.5rem 0 0.6rem;
+    margin-bottom: 0.2rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(17, 17, 17, 0.08);
+  }
+
+  .table td.tdShop::before {
+    content: none;
+  }
+
+  .table tbody tr:last-child td {
+    border-bottom: 1px solid rgba(17, 17, 17, 0.05);
+  }
+
+  .table tbody tr td:last-child,
+  .table tbody tr:last-child td:last-child {
+    border-bottom: none;
+  }
+
+  .table tbody tr:last-child td.tdShop {
+    border-bottom: 1px solid rgba(17, 17, 17, 0.08);
+  }
+
+  .email {
+    min-width: 0;
+  }
+}

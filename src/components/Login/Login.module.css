@@ -1,0 +1,570 @@
+/* Вход — в визуальном языке главной и 404: чёрная страница, шапка-таблетка,
+   светло-серая карточка с формой, рядом тёмная карточка о платформе,
+   заголовки капслоком, чёрная пилюля-CTA с белой стрелкой. */
+
+.page {
+  --edge-mobile: 14px;
+  --edge-desktop: 28px;
+  --header-h: 78px;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #000;
+  color: #fff;
+  padding-top: var(--header-h);
+  box-sizing: border-box;
+}
+
+/* Словомарка платформы строчными (перебивает uppercase .logoText из SiteHeader). */
+.brandWordmark {
+  display: inline-block;
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-transform: none;
+  color: #fff;
+}
+
+.main {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px var(--edge-mobile) 40px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 1000px;
+}
+
+@media (min-width: 900px) {
+  .main {
+    padding: 24px var(--edge-desktop) 64px;
+  }
+
+  .grid {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: 14px;
+  }
+}
+
+/* ═══════════════ ФОРМА ═══════════════ */
+.formCard {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  min-width: 0;
+  padding: clamp(1.5rem, 3vw, 2.75rem) clamp(1.25rem, 3vw, 2.5rem);
+  border-radius: 22px;
+  background: #e9e9e9;
+  color: #111;
+  box-sizing: border-box;
+}
+
+.steps {
+  display: flex;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.step {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.75rem 0.3rem 0.35rem;
+  border-radius: 999px;
+  background: rgba(17, 17, 17, 0.06);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #7a7a7a;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.stepNum {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.6rem;
+  height: 1.6rem;
+  padding: 0 0.3rem;
+  border-radius: 999px;
+  background: #fff;
+  color: #111;
+  font-size: 0.72rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  box-sizing: border-box;
+}
+
+.stepActive {
+  background: #111;
+  color: #fff;
+}
+
+.stepDone {
+  color: #111;
+}
+
+.stepBody {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  animation: stepIn 0.35s ease both;
+}
+
+@keyframes stepIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.title {
+  margin: 0;
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.titleLine {
+  display: block;
+  font-size: clamp(2.2rem, 4.6vw, 3.4rem);
+  color: #111;
+}
+
+.titleMuted {
+  color: #6b6b6b;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.hint {
+  margin: 0;
+  max-width: 30rem;
+  font-size: 0.98rem;
+  line-height: 1.45;
+  color: #2b2b2b;
+}
+
+.email {
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.linkBtn {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  font-weight: 600;
+  color: #111;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.linkBtn:hover:not(:disabled) {
+  color: #6b6b6b;
+}
+
+.linkBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #555;
+}
+
+.input {
+  width: 100%;
+  height: 3.5rem;
+  padding: 0 1.1rem;
+  border: 2px solid transparent;
+  border-radius: 16px;
+  background: #fff;
+  color: #111;
+  font-size: 1.1rem;
+  font-family: inherit;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input::placeholder {
+  color: #b3b3b3;
+}
+
+.input:hover:not(:disabled) {
+  border-color: rgba(17, 17, 17, 0.15);
+}
+
+.input:focus {
+  outline: none;
+  border-color: #111;
+  box-shadow: 0 0 0 4px rgba(17, 17, 17, 0.08);
+}
+
+.input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.inputError,
+.inputError:hover:not(:disabled) {
+  border-color: #d92d20;
+}
+
+/* ── Код: одно прозрачное поле поверх шести ячеек ── */
+.codeField {
+  position: relative;
+  display: block;
+}
+
+.codeInput {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: transparent;
+  caret-color: transparent;
+  font-size: 16px;
+  letter-spacing: 0;
+  outline: none;
+  cursor: text;
+}
+
+.codeInput::selection {
+  background: transparent;
+}
+
+.cells {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: clamp(0.35rem, 1.2vw, 0.6rem);
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 5 / 6;
+  max-height: 4.25rem;
+  border: 2px solid transparent;
+  border-radius: 14px;
+  background: #fff;
+  color: #111;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.cellFilled {
+  animation: pop 0.18s ease;
+}
+
+@keyframes pop {
+  50% {
+    transform: scale(1.06);
+  }
+}
+
+/* Подсветка и мигающий курсор — только пока поле в фокусе. */
+.codeInput:focus + .cells .cellActive {
+  border-color: #111;
+  box-shadow: 0 0 0 4px rgba(17, 17, 17, 0.08);
+}
+
+.codeInput:focus + .cells .cellActive:not(.cellFilled)::after {
+  content: '';
+  width: 2px;
+  height: 40%;
+  border-radius: 1px;
+  background: #111;
+  animation: blink 1s steps(1) infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.codeInput:disabled + .cells {
+  opacity: 0.6;
+}
+
+.cellsError .cell {
+  border-color: #d92d20;
+}
+
+.cellsError {
+  animation: shake 0.35s ease;
+}
+
+@keyframes shake {
+  20%,
+  60% {
+    transform: translateX(-5px);
+  }
+  40%,
+  80% {
+    transform: translateX(5px);
+  }
+}
+
+.error {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: #d92d20;
+}
+
+/* Чёрная пилюля-CTA с круглой белой стрелкой — как на главной, но во всю ширину формы. */
+.cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  width: 100%;
+  margin-top: 0.25rem;
+  padding: 0.35rem 0.4rem 0.35rem 1.4rem;
+  background: #111;
+  color: #fff;
+  border: 1px solid #111;
+  border-radius: 999px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background-color 0.25s ease, color 0.25s ease, opacity 0.2s ease,
+    transform 0.15s ease;
+}
+
+.cta:hover:not(:disabled) {
+  background: #8a8a8a;
+  color: #111;
+}
+
+.cta:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.cta:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(17, 17, 17, 0.2);
+}
+
+.cta:disabled {
+  opacity: 0.75;
+  cursor: progress;
+}
+
+.ctaArrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: #fff;
+  color: #111;
+  font-size: 1.3rem;
+  line-height: 1;
+  transition: transform 0.25s ease;
+}
+
+.cta:hover:not(:disabled) .ctaArrow {
+  transform: translateX(-0.45rem);
+}
+
+.spinner {
+  width: 1.1rem;
+  height: 1.1rem;
+  border: 2px solid rgba(17, 17, 17, 0.2);
+  border-top-color: #111;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.resend {
+  align-self: center;
+  background: none;
+  border: none;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: inherit;
+  color: #111;
+  cursor: pointer;
+}
+
+.resend:hover:not(:disabled) {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.resend:disabled {
+  color: #7a7a7a;
+  font-weight: 500;
+  cursor: default;
+}
+
+.timer {
+  font-variant-numeric: tabular-nums;
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ═══════════════ О ПЛАТФОРМЕ ═══════════════ */
+.infoCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  min-width: 0;
+  padding: clamp(1.5rem, 3vw, 2.75rem) clamp(1.25rem, 3vw, 2.5rem);
+  border-radius: 22px;
+  background: #1a1a1a;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Мягкое свечение в углу — чтобы тёмная карточка не была плоской. */
+.infoCard::before {
+  content: '';
+  position: absolute;
+  top: -40%;
+  right: -30%;
+  width: 80%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.09), transparent 65%);
+  pointer-events: none;
+}
+
+.infoKicker {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.infoTitle {
+  margin: 0;
+  max-width: 22rem;
+  font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: #f2f2f2;
+}
+
+.perks {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin: auto 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.perk {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  padding: 1rem 1.1rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.perkNum {
+  flex: none;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.4);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.5;
+}
+
+.perkTitle {
+  display: block;
+  margin-bottom: 0.2rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.perkText {
+  display: block;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+/* На телефоне index.css поднимает шрифт полей до 16px (без зума iOS) —
+   у поля почты свой шрифт крупнее, а поле кода прозрачное: его 16px не мешает. */
+@media (max-width: 768px) {
+  .input {
+    font-size: 1.1rem !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stepBody,
+  .cellFilled,
+  .cellsError,
+  .cta,
+  .ctaArrow,
+  .step,
+  .codeInput:focus + .cells .cellActive:not(.cellFilled)::after {
+    animation: none;
+    transition: none;
+  }
+}

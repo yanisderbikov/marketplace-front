@@ -1,0 +1,247 @@
+/* Страница подключения платёжки: шапка с логотипом, пошаговая инструкция и форма —
+   поля и карточки берём из AdminSettings.module.css. */
+
+.backLink {
+  display: inline-block;
+  margin-bottom: 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #8c8c8c;
+  text-decoration: none;
+  text-transform: lowercase;
+}
+
+.backLink:hover {
+  color: #111;
+}
+
+.hero {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding: 1.25rem 1.5rem;
+  background: #fff;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  border-radius: 18px;
+}
+
+@media (max-width: 560px) {
+  .hero {
+    padding: 1.1rem 1rem;
+  }
+}
+
+.hero > svg {
+  flex: 0 0 auto;
+}
+
+.heroBody {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.heroTitleRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+}
+
+.heroTitle {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #111;
+}
+
+.heroText {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: #555;
+}
+
+.heroNote {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #8c8c8c;
+}
+
+.methods {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.method {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #f2f2f2;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #555;
+}
+
+.badgeIdle {
+  background: #ececec;
+  color: #555;
+}
+
+.badgeWarn {
+  background: #fff3cd;
+  color: #5c4a00;
+}
+
+.notice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  padding: 1rem 1.25rem;
+  border-radius: 18px;
+  background: #fff3cd;
+  border: 1px solid rgba(138, 109, 0, 0.3);
+}
+
+.noticeText {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #5c4a00;
+}
+
+/* ---------- Шаги ---------- */
+
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.step {
+  display: flex;
+  gap: 0.85rem;
+}
+
+.stepNum {
+  flex: 0 0 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #111;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.stepBody {
+  min-width: 0;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding-top: 0.2rem;
+}
+
+.stepTitle {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #111;
+}
+
+.stepText {
+  margin: 0;
+  font-size: 0.87rem;
+  line-height: 1.5;
+  color: #555;
+}
+
+.stepLink {
+  align-self: flex-start;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #111;
+  text-underline-offset: 2px;
+}
+
+.copyField {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.copyField input {
+  min-width: 0;
+}
+
+.copyBtn {
+  flex: 0 0 auto;
+  padding: 0 1rem;
+  border: 1px solid rgba(17, 17, 17, 0.2);
+  border-radius: 12px;
+  background: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-family: inherit;
+  color: #111;
+  cursor: pointer;
+  text-transform: lowercase;
+}
+
+.copyBtn:hover {
+  border-color: #111;
+}
+
+/* ---------- Действия ---------- */
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.actionsMain {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem 1rem;
+  margin-left: auto;
+}
+
+.dangerBtn {
+  padding: 0.7rem 1.2rem;
+  border: 1px solid rgba(179, 38, 30, 0.4);
+  border-radius: 999px;
+  background: #fff;
+  color: #b3261e;
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: inherit;
+  text-transform: lowercase;
+  cursor: pointer;
+}
+
+.dangerBtn:hover:not(:disabled) {
+  background: #ffd9d9;
+}
+
+.dangerBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

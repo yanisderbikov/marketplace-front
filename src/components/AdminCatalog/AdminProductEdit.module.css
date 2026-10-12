@@ -1,0 +1,557 @@
+.wrap {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1rem 12px 3rem;
+  box-sizing: border-box;
+}
+
+@media (min-width: 769px) {
+  .wrap {
+    padding: 1.5rem 50px 3rem;
+  }
+}
+
+.backLink {
+  display: inline-block;
+  margin-bottom: 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #8c8c8c;
+  text-decoration: none;
+  text-transform: lowercase;
+}
+
+.backLink:hover {
+  color: #111;
+}
+
+.pageHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.headTitles {
+  min-width: 0;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111;
+  word-break: break-word;
+}
+
+.headBadges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.5rem;
+}
+
+/* Пустой ряд бейджей (новый активный товар) не должен давать отступ под заголовком. */
+.headBadges:empty {
+  display: none;
+}
+
+.badge {
+  display: inline-block;
+  padding: 2px 9px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  border-radius: 999px;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.badgeOff {
+  background: #b3261e;
+}
+
+.badgePreorder {
+  background: #4a6fa5;
+}
+
+/* Ссылка «на витрине» рядом с бейджами — та же пилюля, что «Витрина» в списке, только мельче. */
+.storefrontLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: #f1f1f1;
+  color: #111;
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.5;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.2s ease;
+}
+
+.storefrontLink:hover {
+  background: #e0e0e0;
+}
+
+.storefrontLink svg {
+  display: block;
+}
+
+/* Карточка-секция */
+.card {
+  background: #fff;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  border-radius: 18px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.cardTitle {
+  margin: 0;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid rgba(17, 17, 17, 0.08);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #111;
+  text-transform: lowercase;
+}
+
+.hint {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: #8c8c8c;
+}
+
+.message {
+  margin: 0;
+  padding: 2rem 0;
+  color: #8c8c8c;
+  text-align: center;
+}
+
+.idLine {
+  margin: 0;
+  font-size: 0.78rem;
+  color: #8c8c8c;
+}
+
+.idLine code {
+  background: #f5f5f5;
+  padding: 0.15rem 0.5rem;
+  border-radius: 8px;
+  word-break: break-all;
+}
+
+/* ---------- Галерея: фото сверху ---------- */
+
+.galleryMain {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  aspect-ratio: 1;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #f5f5f5;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+}
+
+.galleryMain img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.mainTag {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(17, 17, 17, 0.8);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.galleryEmpty {
+  padding: 2rem;
+  border: 1px dashed rgba(17, 17, 17, 0.2);
+  border-radius: 14px;
+  text-align: center;
+  color: #8c8c8c;
+  font-size: 0.9rem;
+}
+
+.thumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+}
+
+.thumb {
+  position: relative;
+  width: 84px;
+  height: 84px;
+  cursor: grab;
+}
+
+.thumb img {
+  width: 84px;
+  height: 84px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background: #f5f5f5;
+  display: block;
+  cursor: pointer;
+}
+
+.thumbActive img {
+  border-color: #111;
+}
+
+.thumbDragging {
+  opacity: 0.4;
+}
+
+.thumbRemove {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: #b3261e;
+  color: #fff;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+.thumbRemove:hover:not(:disabled) {
+  background: #8c1d17;
+}
+
+.thumbRemove:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Стрелки переноса: работают и там, где нет drag-and-drop (телефон, планшет) */
+.thumbMove {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  border-radius: 0 0 10px 10px;
+  overflow: hidden;
+}
+
+.thumbMove button {
+  flex: 1;
+  padding: 2px 0;
+  border: none;
+  background: rgba(17, 17, 17, 0.62);
+  color: #fff;
+  font-size: 0.9rem;
+  line-height: 1.1;
+  cursor: pointer;
+}
+
+.thumbMove button:hover:not(:disabled) {
+  background: #111;
+}
+
+.thumbMove button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.thumbAdd {
+  width: 84px;
+  height: 84px;
+  border: 2px dashed rgba(17, 17, 17, 0.3);
+  border-radius: 10px;
+  background: transparent;
+  color: #8c8c8c;
+  font-size: 1.6rem;
+  font-weight: 300;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.thumbAdd:hover:not(:disabled) {
+  border-color: #111;
+  color: #111;
+}
+
+.thumbAdd:disabled {
+  cursor: wait;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #111;
+  font-variant-numeric: tabular-nums;
+}
+
+.uploadProgress {
+  margin-top: 0.9rem;
+  max-width: 460px;
+}
+
+/* ---------- Поля ---------- */
+
+.row3,
+.row4 {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.row3 {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.row4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+@media (max-width: 560px) {
+  .row3 {
+    grid-template-columns: 1fr;
+  }
+
+  .row4 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #555;
+  text-transform: lowercase;
+}
+
+.input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid rgba(17, 17, 17, 0.12);
+  border-radius: 12px;
+  font-size: 0.95rem;
+  color: #111;
+  background: #fff;
+  font-family: inherit;
+  outline: none;
+}
+
+.input:focus {
+  border-color: #111;
+  box-shadow: 0 0 0 3px rgba(17, 17, 17, 0.08);
+}
+
+/* Скидка считается сама: поле только для чтения, серое и без фокуса. */
+.inputReadonly,
+.inputReadonly:focus {
+  background: #f5f5f5;
+  color: #8c8c8c;
+  border-color: rgba(17, 17, 17, 0.08);
+  box-shadow: none;
+  cursor: default;
+}
+
+.textarea {
+  resize: none;
+  overflow: hidden;
+  line-height: 1.5;
+}
+
+.variantRow {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.variantRow .input {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Цена варианта короче названия: «1990» не нужна половина строки. */
+.variantRow .variantPrice {
+  flex: 0 0 140px;
+}
+
+@media (max-width: 560px) {
+  .variantRow .variantPrice {
+    flex-basis: 100px;
+  }
+}
+
+.variantRemove {
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(17, 17, 17, 0.15);
+  border-radius: 50%;
+  background: #fff;
+  color: #b3261e;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.variantRemove:hover {
+  border-color: #b3261e;
+}
+
+.addBtn {
+  align-self: flex-start;
+  padding: 0.45rem 0.9rem;
+  border: 1px dashed rgba(17, 17, 17, 0.35);
+  border-radius: 999px;
+  background: transparent;
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-family: inherit;
+  color: #333;
+  cursor: pointer;
+}
+
+.addBtn:hover {
+  border-color: #111;
+}
+
+.checkLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #555;
+  text-transform: lowercase;
+  cursor: pointer;
+}
+
+.checkLabel input {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  accent-color: #111;
+}
+
+/* ---------- Кнопки ---------- */
+
+.saveBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  padding: 0.7rem 1.6rem;
+  background: #111;
+  color: #fff;
+  border: 1px solid #111;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  text-transform: lowercase;
+  white-space: nowrap;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.saveBtn:hover:not(:disabled) {
+  background: #8a8a8a;
+  border-color: #8a8a8a;
+}
+
+.saveBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.cancelBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  padding: 0.7rem 1.3rem;
+  background: #fff;
+  color: #555;
+  border: 1px solid rgba(17, 17, 17, 0.12);
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  text-transform: lowercase;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.cancelBtn:hover {
+  border-color: #111;
+  color: #111;
+}
+
+/* Удаление — красный контур (как deleteBtn в списках anyforms), слева от «к списку»:
+   далеко от «сохранить», чтобы не нажать случайно. */
+.deleteBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  margin-right: auto;
+  padding: 0.7rem 1.3rem;
+  background: #fff;
+  color: #b3261e;
+  border: 1px solid rgba(179, 38, 30, 0.35);
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  text-transform: lowercase;
+  white-space: nowrap;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.deleteBtn:hover:not(:disabled) {
+  background: #b3261e;
+  color: #fff;
+}
+
+.deleteBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.footActions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1.25rem;
+}

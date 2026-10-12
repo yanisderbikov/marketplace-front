@@ -1,0 +1,549 @@
+/* Вкладка «Настройки» — стиль карточки товара anyforms (AdminProductEdit.module.css):
+   белые карточки-секции со строчными заголовками, поля со скруглением 12px,
+   чёрные кнопки-пилюли, цветные бейджи-пилюли статуса. */
+
+.wrap {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1rem 12px 3rem;
+  box-sizing: border-box;
+}
+
+@media (min-width: 769px) {
+  .wrap {
+    padding: 1.5rem 50px 3rem;
+  }
+}
+
+.pageHead {
+  margin-bottom: 1.25rem;
+}
+
+.title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0;
+  color: #111;
+  text-transform: lowercase;
+}
+
+.subtitle {
+  margin: 0.2rem 0 0;
+  font-size: 0.85rem;
+  color: #8c8c8c;
+}
+
+/* Аббревиатуры и имена полей Т-Банка в строчных подписях не опускаем:
+   «TerminalKey» мерчант ищет в кабинете банка ровно так. */
+.keepCase {
+  text-transform: none;
+}
+
+/* ---------- Статус готовности ---------- */
+
+.status {
+  margin-bottom: 1rem;
+  padding: 1rem 1.25rem;
+  border-radius: 18px;
+  border: 1px solid transparent;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Гамма статусов — как бейджи оплаты в anyforms (OrderCard). */
+.statusOk {
+  background: #d4edda;
+  border-color: rgba(21, 87, 36, 0.25);
+  color: #155724;
+}
+
+.statusWarn {
+  background: #fff3cd;
+  border-color: rgba(138, 109, 0, 0.3);
+  color: #5c4a00;
+}
+
+.statusOff {
+  background: #ffd9d9;
+  border-color: rgba(183, 28, 28, 0.3);
+  color: #7a1414;
+}
+
+.statusTitle {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.statusText {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.steps {
+  list-style: none;
+  margin: 0.15rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.step {
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.stepDone {
+  opacity: 0.65;
+}
+
+.stepMark {
+  flex: 0 0 1rem;
+  text-align: center;
+  font-weight: 700;
+}
+
+.stepBody {
+  min-width: 0;
+}
+
+.stepLink {
+  color: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.stepLink:hover {
+  color: #111;
+}
+
+/* ---------- Карточки-секции ---------- */
+
+.card {
+  background: #fff;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  border-radius: 18px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  /* Якоря статуса не прячут начало секции под плавающей шапкой. */
+  scroll-margin-top: calc(96px + env(safe-area-inset-top, 0px));
+}
+
+@media (max-width: 560px) {
+  .card {
+    padding: 1.1rem 1rem;
+  }
+}
+
+.cardHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid rgba(17, 17, 17, 0.08);
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #111;
+  text-transform: lowercase;
+}
+
+.badge {
+  display: inline-block;
+  padding: 2px 9px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  border-radius: 999px;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.badgeOk {
+  background: #2f7d4a;
+}
+
+.badgeOff {
+  background: #b3261e;
+}
+
+.hint {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: #8c8c8c;
+}
+
+.lead {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #555;
+}
+
+/* ---------- Поля ---------- */
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+@media (max-width: 560px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #555;
+  text-transform: lowercase;
+}
+
+/* Поле со сложным содержимым (поиск ПВЗ): строчная только сама подпись. */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.fieldLabel {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #555;
+  text-transform: lowercase;
+}
+
+.input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid rgba(17, 17, 17, 0.12);
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: #111;
+  background: #fff;
+  font-family: inherit;
+  text-transform: none;
+  outline: none;
+}
+
+.input:focus {
+  border-color: #111;
+  box-shadow: 0 0 0 3px rgba(17, 17, 17, 0.08);
+}
+
+.input::placeholder,
+.prefixInput::placeholder {
+  color: #b0b0b0;
+}
+
+.inputError,
+.inputError:focus,
+.inputError:focus-within {
+  border-color: #b3261e;
+  box-shadow: 0 0 0 3px rgba(179, 38, 30, 0.1);
+}
+
+.mono {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  font-size: 0.9rem;
+}
+
+.select {
+  cursor: pointer;
+}
+
+/* Поле с «@» перед ником: рамка — у обёртки, сам input без рамки. */
+.prefixField {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid rgba(17, 17, 17, 0.12);
+  border-radius: 12px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.prefixField:focus-within {
+  border-color: #111;
+  box-shadow: 0 0 0 3px rgba(17, 17, 17, 0.08);
+}
+
+.prefixField.inputError,
+.prefixField.inputError:focus-within {
+  border-color: #b3261e;
+  box-shadow: 0 0 0 3px rgba(179, 38, 30, 0.1);
+}
+
+.prefix {
+  padding: 0 0 0 0.9rem;
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: #8c8c8c;
+  text-transform: none;
+}
+
+.prefixInput {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0.65rem 0.9rem 0.65rem 0.15rem;
+  border: none;
+  background: transparent;
+  font-size: 0.95rem;
+  font-weight: 400;
+  font-family: inherit;
+  color: #111;
+  text-transform: none;
+  outline: none;
+}
+
+.fieldHint {
+  font-size: 0.78rem;
+  font-weight: 400;
+  line-height: 1.45;
+  color: #8c8c8c;
+  text-transform: none;
+}
+
+.fieldError {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #b3261e;
+  text-transform: none;
+}
+
+.fieldWarn {
+  font-size: 0.8rem;
+  font-weight: 500;
+  line-height: 1.45;
+  color: #8a6d00;
+  text-transform: none;
+}
+
+/* Текстовая кнопка рядом с поиском ПВЗ: вернуть сохранённый пункт. */
+.linkBtn {
+  align-self: flex-start;
+  padding: 0;
+  border: none;
+  background: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-family: inherit;
+  color: #555;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-transform: none;
+  cursor: pointer;
+}
+
+.linkBtn:hover {
+  color: #111;
+}
+
+/* ---------- Форма внутри секции (ключи СДЭК) и блок под ней (пункт отправки) ---------- */
+
+.subForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.subBlock {
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(17, 17, 17, 0.08);
+}
+
+/* ---------- Подсказка про кабинет Т-Банка / СДЭК ---------- */
+
+.help {
+  padding: 0.75rem 0.9rem;
+  border: 1px solid rgba(17, 17, 17, 0.12);
+  border-radius: 12px;
+  background: #fafafa;
+}
+
+.helpSummary {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #111;
+  cursor: pointer;
+  text-transform: lowercase;
+}
+
+.helpList {
+  margin: 0.65rem 0 0;
+  padding-left: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #555;
+}
+
+.helpNote {
+  margin: 0.65rem 0 0;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: #8c8c8c;
+}
+
+/* ---------- Переключатель чеков ---------- */
+
+.switch {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  cursor: pointer;
+}
+
+/* Сам checkbox прячем визуально, но оставляем фокусируемым с клавиатуры. */
+.switchInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.switchTrack {
+  position: relative;
+  flex: 0 0 auto;
+  width: 40px;
+  height: 24px;
+  margin-top: 1px;
+  border-radius: 999px;
+  background: #d0d0d0;
+  transition: background 0.2s ease;
+}
+
+.switchTrack::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease;
+}
+
+.switchInput:checked + .switchTrack {
+  background: #111;
+}
+
+.switchInput:checked + .switchTrack::after {
+  transform: translateX(16px);
+}
+
+.switchInput:focus-visible + .switchTrack {
+  box-shadow: 0 0 0 3px rgba(17, 17, 17, 0.2);
+}
+
+.switchText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #333;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .switchTrack,
+  .switchTrack::after {
+    transition: none;
+  }
+}
+
+/* ---------- Сохранение ---------- */
+
+.formActions,
+.cardActions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 0.6rem 1rem;
+}
+
+.formActions {
+  margin: 0 0 1.5rem;
+}
+
+.cardActions {
+  padding-top: 0.25rem;
+}
+
+.dirtyNote {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #8a6d00;
+}
+
+.saveBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  padding: 0.7rem 1.6rem;
+  background: #111;
+  color: #fff;
+  border: 1px solid #111;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  text-transform: lowercase;
+  white-space: nowrap;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.saveBtn:hover:not(:disabled) {
+  background: #8a8a8a;
+  border-color: #8a8a8a;
+}
+
+.saveBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 420px) {
+  .saveBtn {
+    white-space: normal;
+    text-align: center;
+  }
+}

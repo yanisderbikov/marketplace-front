@@ -1,0 +1,320 @@
+.wrap {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  /* Место под плавающую шапку резервирует StorefrontLayout (.main), здесь —
+     только воздух под ней (в anyforms .wrap резервировал 104px сам). */
+  padding: 22px 12px 0;
+  box-sizing: border-box;
+}
+
+@media (min-width: 769px) {
+  .wrap {
+    padding: 22px 50px 0;
+  }
+}
+
+.intro {
+  margin: 0 auto 1.25rem;
+  max-width: 760px;
+  text-align: center;
+}
+
+/* Заголовок витрины + тонкий разделитель с ромбом. Размер и разрядка
+   подобраны так, чтобы длинный слоган на телефоне спокойно ложился в две
+   ровные строки. */
+.shopTitle {
+  /* Воздух под шапкой задаётся здесь — иначе заголовок выглядит приклеенным к ней. */
+  margin: clamp(2rem, 6vw, 3rem) 0 1.1rem;
+  font-family: var(--shop-title-font, inherit);
+  font-size: clamp(1rem, 2.4vw, 1.3rem);
+  font-weight: 400;
+  line-height: 1.7;
+  letter-spacing: 0.18em;
+  /* Отдельная переменная (не --shop-title-transform): та управляет чекаутом.
+     Тема из одного цвета (buildShopTheme) регистр не меняет: слоган пишет мерчант. */
+  text-transform: var(--shop-tagline-transform, uppercase);
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+  /* --shop-page-accent — акцент для элементов, лежащих прямо на фоне страницы
+     (заголовок, разделитель, hero-CTA). */
+  color: var(--shop-page-accent, var(--shop-accent, #111));
+}
+
+.shopDivider {
+  position: relative;
+  display: block;
+  width: 76px;
+  height: 1px;
+  margin: 0 auto 0.4rem;
+  background: var(--shop-page-accent, var(--shop-accent, #111));
+  opacity: 0.5;
+}
+
+.shopDivider::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  background: var(--shop-page-accent, var(--shop-accent, #111));
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+/* Описание магазина под заголовком. В anyforms строка под заголовком была
+   только на десктопе (рядом с видео); здесь её пишет мерчант во вкладке
+   «Дизайн», поэтому показываем на любой ширине. Переносы строк сохраняем. */
+.shopDescription {
+  margin: 1rem auto 0;
+  max-width: 34em;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+  color: var(--shop-text, #555);
+}
+
+/* ── Фото-приветствие витрины (heroImageUrl) ──────────────────────────────
+   Телефон: заголовок магазина, под ним квадратное фото на всю ширину со
+   скруглением как у фото товаров, ниже кнопка к каталогу. Десктоп: фото
+   справа (не шире 460px, чтобы квадрат не раздувался), заголовок и кнопка —
+   по центру оставшегося места слева; hero занимает ту же ширину, что и
+   сетка каталога. */
+.hero {
+  display: grid;
+  gap: 1.25rem;
+  margin: 0 0 2.75rem;
+}
+
+.heroTitleBlock {
+  text-align: center;
+}
+
+.heroMedia {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 18px;
+  overflow: hidden;
+  /* Подложка на время загрузки фото — как у фото товаров. */
+  background: var(--shop-photo-bg, #f1f1f1);
+}
+
+/* Вертикальное фото в квадратной рамке: кадрируем сверху, чтобы лицо
+   и изделие в руках оставались в кадре. */
+.heroImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.heroCta {
+  display: inline-block;
+  justify-self: center;
+  padding: 0.8rem 1.9rem;
+  border: 1px solid var(--shop-page-accent, var(--shop-accent, #111));
+  border-radius: 999px;
+  color: var(--shop-page-accent, var(--shop-accent, #111));
+  font-family: var(--shop-title-font, inherit);
+  font-size: 0.78rem;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.heroCta:hover {
+  background: var(--shop-page-accent, var(--shop-accent, #111));
+  color: var(--shop-page-cta-fg, var(--shop-btn-hover-fg, #fff));
+}
+
+@media (min-width: 769px) {
+  .hero {
+    grid-template-columns: minmax(0, 1fr) minmax(0, min(46vw, 460px));
+    grid-template-areas:
+      'title media'
+      'cta media';
+    column-gap: clamp(2rem, 5vw, 4rem);
+    row-gap: 1.5rem;
+    margin: 1.25rem 0 3.5rem;
+  }
+
+  .heroMedia {
+    grid-area: media;
+  }
+
+  /* Заголовок прижат к низу своей строки, кнопка — к верху своей: вместе
+     блок получается по вертикальному центру напротив квадрата фото. */
+  .heroTitleBlock {
+    grid-area: title;
+    align-self: end;
+  }
+
+  .heroCta {
+    grid-area: cta;
+    align-self: start;
+  }
+
+  /* Рядом с фото заголовок крупнее, а его «шапочный» верхний отступ не нужен. */
+  .hero .shopTitle {
+    margin: 0 0 1.1rem;
+    font-size: clamp(1.1rem, 1.6vw, 1.45rem);
+  }
+
+  .shopDescription {
+    font-size: 0.95rem;
+    line-height: 1.65;
+  }
+
+  .hero .shopDescription {
+    margin-top: 1.1rem;
+    max-width: 30em;
+  }
+}
+
+/* «Каталог» между первым экраном и сеткой: тот же стиль и разделитель
+   с ромбом, что у заголовка витрины, — отбивает каталог от фото-приветствия. */
+.catalogHead {
+  margin: 0 auto 1.75rem;
+  text-align: center;
+  scroll-margin-top: calc(96px + env(safe-area-inset-top, 0px));
+}
+
+.catalogTitle {
+  margin: 0 0 0.9rem;
+  font-family: var(--shop-title-font, inherit);
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--shop-page-accent, var(--shop-accent, #111));
+}
+
+/* Якорь каталога без hero: при прыжке не прячем начало сетки под шапкой. */
+.grid,
+.message {
+  scroll-margin-top: calc(96px + env(safe-area-inset-top, 0px));
+}
+
+/* Телефон: ровно 2 колонки одинаковой ширины */
+.grid {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+.gridItem {
+  min-width: 0;
+  /* Карточка тянется на всю высоту ячейки — ряд получается ровным. */
+  display: flex;
+}
+
+/* Планшет и комп: фиксированная ширина 200px, фиксированный gap, ряд по центру (убирает просвет при 2 колонках) */
+@media (min-width: 450px) {
+  .grid {
+    grid-template-columns: repeat(auto-fill, 200px);
+    gap: 1rem;
+    justify-content: center;
+  }
+}
+
+/* ── Бутиковая витрина ────────────────────────────────────────────────────
+   Плитки без «коробок» тянутся по ширине: 2 колонки на телефоне,
+   3–4 на десктопе; вертикальный gap больше горизонтального, потому что
+   под фото идёт текст. Правила лежат ниже базовых .grid и перекрывают их. */
+.wrapBoutique {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.gridBoutique {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem 0.8rem;
+  margin-top: 0.75rem;
+  justify-content: stretch;
+}
+
+@media (min-width: 640px) {
+  .gridBoutique {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem 1.25rem;
+  }
+}
+
+@media (min-width: 769px) {
+  .wrapBoutique {
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .gridBoutique {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2.5rem 1.5rem;
+  }
+}
+
+.message,
+.error {
+  font-size: 1rem;
+  margin: 0;
+  /* Состояния (пусто / ошибка) лежат прямо на фоне страницы. */
+  color: var(--shop-page-fg, #333);
+}
+
+.message {
+  padding: 1.5rem 0 0.5rem;
+  text-align: center;
+}
+
+.error {
+  color: var(--shop-page-error, #c00);
+}
+
+.messageLink {
+  color: var(--shop-page-accent, var(--shop-accent, #111));
+  text-underline-offset: 2px;
+  white-space: nowrap;
+}
+
+.retryButton {
+  margin-top: 1rem;
+  padding: 0.7rem 1.6rem;
+  border: 1px solid var(--shop-page-accent, var(--shop-accent, #111));
+  border-radius: 999px;
+  background: transparent;
+  color: var(--shop-page-accent, var(--shop-accent, #111));
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.retryButton:hover {
+  background: var(--shop-page-accent, var(--shop-accent, #111));
+  color: var(--shop-page-cta-fg, var(--shop-btn-hover-fg, #fff));
+}
+
+/* «О магазине» — под каталогом, в том же стиле, что заголовок «Каталог»:
+   центрированный блок текста с сохранёнными переносами строк. */
+.about {
+  max-width: 720px;
+  margin: 3.5rem auto 0;
+  text-align: center;
+}
+
+.aboutText {
+  margin: 1.1rem 0 0;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+  color: var(--shop-text, #555);
+}

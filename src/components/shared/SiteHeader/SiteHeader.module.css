@@ -1,0 +1,392 @@
+/* Общая шапка — плавающая «таблетка»: 12px от верха,
+   скругление, тонкая обводка, полупрозрачный фон поверх блюра, чтобы контент
+   просвечивал при прокрутке. Зазор + высота = 78px — столько страницы
+   резервируют сверху (--header-h). Палитра — через переменные, которые
+   страница задаёт пропом tint:
+     --sh-bg      фон таблетки (полупрозрачный),
+     --sh-bg-solid непрозрачный фон для браузеров без backdrop-filter,
+     --sh-border  обводка,
+     --sh-fg      цвет текста/словомарки,
+     --sh-logo-font шрифт текстовой словомарки.
+   Без backdrop-filter остаётся непрозрачный фон — та же таблетка без стекла. */
+
+.safeArea {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 31;
+  height: env(safe-area-inset-top, 0px);
+  pointer-events: none;
+  background: rgba(229, 229, 229, 0.72);
+}
+
+.siteHeader {
+  position: fixed;
+  top: calc(env(safe-area-inset-top, 0px) + 12px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 30;
+  width: min(calc(100% - 24px), 1200px);
+  min-height: 66px;
+  box-sizing: border-box;
+  border: 1px solid var(--sh-border, rgba(255, 255, 255, 0.12));
+  border-radius: 18px;
+  background: var(--sh-bg-solid, #0e0e0e);
+  color: var(--sh-fg, #fff);
+  box-shadow: 0 12px 32px -14px rgba(0, 0, 0, 0.6);
+}
+
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .safeArea {
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+  }
+
+  .siteHeader {
+    background: var(--sh-bg, rgba(14, 14, 14, 0.7));
+    -webkit-backdrop-filter: blur(18px) saturate(1.4);
+    backdrop-filter: blur(18px) saturate(1.4);
+  }
+}
+
+.siteHeaderInner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  column-gap: clamp(1.25rem, 4vw, 3.5rem);
+  min-height: 66px;
+  padding: 12px clamp(12px, 2vw, 20px);
+  box-sizing: border-box;
+}
+
+/* Левая зона: логотип + слот left. Правая: rightItems + слот right + бургер. */
+.leftZone {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+  /* Не шире своей колонки: иначе при justify-self: start зона растягивается
+     по содержимому и длинное название заезжает под иконки справа. */
+  max-width: 100%;
+  justify-self: start;
+}
+
+.rightZone {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  min-width: 0;
+  justify-self: end;
+  /* Правая зона занимает вторую колонку сетки, когда nav не рендерится. */
+  grid-column: -2 / -1;
+}
+
+.logoLink {
+  display: flex;
+  align-items: center;
+  line-height: 0;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.logo {
+  display: block;
+  width: auto;
+  height: clamp(22px, 2.6vw, 30px);
+  max-width: min(120px, 34vw);
+  object-fit: contain;
+}
+
+.logoCompact {
+  display: none;
+}
+
+/* Крупный логотип магазинов: таблетка вырастает до ~68px, страницы витрин
+   резервируют под это место сверху. */
+.logoLarge .logo {
+  height: 44px;
+  max-width: min(220px, 44vw);
+}
+
+/* Текстовая словомарка может сжиматься (min-width: 0 у flex-элементов), чтобы
+   страница обрезала её по реальному остатку места в шапке — витрина так
+   ставит многоточие у длинного названия магазина. */
+.logoLinkText,
+.logoLinkText .logoText {
+  min-width: 0;
+}
+
+.logoText {
+  font-family: var(--sh-logo-font, inherit);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  white-space: nowrap;
+  color: var(--sh-fg, #fff);
+}
+
+.headerNav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.35rem, 1.2vw, 0.85rem);
+  justify-self: center;
+  min-width: 0;
+}
+
+.headerContact {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: nowrap;
+  gap: clamp(0.5rem, 1.5vw, 1rem);
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.headerPhone {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.88);
+  text-decoration: none;
+  white-space: nowrap;
+  padding: 0.45rem 0.5rem;
+  border-radius: 999px;
+  border: 0;
+  background: transparent;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.headerPhone:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.navLink {
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.88);
+  text-decoration: none;
+  text-transform: none;
+  padding: 0.45rem 0.72rem;
+  border-radius: 999px;
+  border: 0;
+  background: transparent;
+  font-family: inherit;
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.navLink:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.navLinkPill {
+  background: #efefef;
+  color: #111;
+  font-weight: 600;
+  padding-inline: 1rem;
+}
+
+.navLinkPill:hover {
+  background: #fff;
+  color: #111;
+}
+
+.burgerButton {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 4px;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.burgerLine {
+  width: 18px;
+  height: 2px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.mobileMenu {
+  display: none;
+}
+
+@media (min-width: 480px) {
+  .headerNav {
+    gap: clamp(0.5rem, 1.5vw, 1.1rem);
+  }
+
+  .navLink {
+    font-size: 0.95rem;
+    padding: 0.52rem 0.8rem;
+  }
+
+  .headerPhone {
+    font-size: 0.92rem;
+    padding: 0.52rem 0.65rem;
+  }
+}
+
+@media (min-width: 721px) and (max-width: 1080px) {
+  .siteHeaderInner {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    column-gap: clamp(0.6rem, 1.8vw, 1.25rem);
+  }
+
+  .headerNav {
+    gap: clamp(0.25rem, 0.9vw, 0.55rem);
+  }
+
+  .navLink {
+    font-size: 0.88rem;
+    padding: 0.42rem 0.56rem;
+  }
+
+  .headerPhone {
+    font-size: 0.84rem;
+    padding: 0.42rem 0.38rem;
+  }
+}
+
+@media (max-width: 720px) {
+  .siteHeader {
+    border-radius: 16px;
+  }
+
+  .siteHeaderInner {
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 0.75rem;
+    padding: 12px 12px;
+  }
+
+  .logoLarge .logo {
+    height: 38px;
+    max-width: min(180px, 46vw);
+  }
+
+  /* Компактный логотип (знак вместо словомарки) на узких экранах. */
+  .logoWide {
+    display: none;
+  }
+
+  .logoCompact {
+    display: block;
+  }
+
+  .headerNav,
+  .headerContact {
+    display: none;
+  }
+
+  .burgerButton {
+    display: inline-flex;
+  }
+
+  /* logoAlign="center": три колонки, логотип во второй по центру, содержимое
+     слота left (бургер) в первой у левого края, правая зона в третьей.
+     Левая зона раскрывается через display: contents, чтобы её дети стали
+     элементами сетки. */
+  .logoCentered .siteHeaderInner {
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  }
+
+  .logoCentered .leftZone {
+    display: contents;
+  }
+
+  .logoCentered .leftZone > :not(.logoLink) {
+    grid-column: 1;
+    justify-self: start;
+  }
+
+  .logoCentered .logoLink {
+    grid-column: 2;
+    justify-self: center;
+  }
+
+  .logoCentered .rightZone {
+    grid-column: 3;
+  }
+
+  /* Выпадающее меню — вторая «таблетка» под шапкой, с теми же полями. */
+  .mobileMenu {
+    position: fixed;
+    top: calc(env(safe-area-inset-top, 0px) + 86px);
+    left: 12px;
+    right: 12px;
+    z-index: 29;
+    display: block;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-8px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .mobileMenuOpen {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .mobileMenuInner {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.4rem;
+    padding: 0.9rem 1rem 1rem;
+    background: rgba(12, 12, 12, 0.96);
+    border: 1px solid var(--sh-border, rgba(255, 255, 255, 0.12));
+    border-radius: 16px;
+    box-shadow: 0 16px 40px -16px rgba(0, 0, 0, 0.7);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+  }
+
+  .mobileMenuLink {
+    display: block;
+    font-size: 1rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    text-align: left;
+    padding: 0.75rem 0.85rem;
+    border-radius: 12px;
+    border: 0;
+    background: transparent;
+    font-family: inherit;
+    cursor: pointer;
+    transition: color 0.15s ease, background 0.15s ease;
+  }
+
+  .mobileMenuLink:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .mobileMenuPrimary {
+    color: #111;
+    background: #efefef;
+    font-weight: 600;
+  }
+
+  .mobileMenuPrimary:hover {
+    color: #111;
+    background: #fff;
+  }
+}

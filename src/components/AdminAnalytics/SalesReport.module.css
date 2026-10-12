@@ -1,0 +1,194 @@
+.wrap {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1rem 12px 3rem;
+  box-sizing: border-box;
+}
+
+@media (min-width: 769px) {
+  .wrap {
+    padding: 1.5rem 50px 3rem;
+  }
+}
+
+.pageHead {
+  margin-bottom: 1.25rem;
+}
+
+.title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0;
+  color: #111;
+  text-transform: lowercase;
+}
+
+.subtitle {
+  margin: 0.2rem 0 0;
+  font-size: 0.85rem;
+  color: #8c8c8c;
+}
+
+/* Панель фильтров — как toolbar на странице товаров. */
+.controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  padding: 0.75rem;
+  background: #fff;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  border-radius: 18px;
+  margin-bottom: 1rem;
+}
+
+.dates {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.dateInput {
+  padding: 0.45rem 0.7rem;
+  font-size: 0.88rem;
+  font-family: inherit;
+  color: #111;
+  background: #fff;
+  border: 1px solid rgba(17, 17, 17, 0.12);
+  border-radius: 999px;
+  outline: none;
+}
+
+.dateInput:focus {
+  border-color: #111;
+}
+
+.dateDash {
+  color: #888;
+}
+
+.presets {
+  display: inline-flex;
+  flex-wrap: wrap;
+  padding: 3px;
+  gap: 2px;
+  background: #f1f1f1;
+  border-radius: 999px;
+}
+
+.presetBtn {
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  font-size: 0.82rem;
+  font-weight: 600;
+  font-family: inherit;
+  color: #555;
+  cursor: pointer;
+  text-transform: lowercase;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.presetBtn:hover {
+  color: #111;
+}
+
+.presetActive {
+  background: #fff;
+  color: #111;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+.hint {
+  margin: 0.4rem 0 0;
+  font-size: 0.9rem;
+  color: #777;
+}
+
+.error {
+  margin: 0.4rem 0 0;
+  padding: 0.6rem 0.9rem;
+  font-size: 0.9rem;
+  color: #a02020;
+  background: rgba(200, 40, 40, 0.08);
+  border-radius: 12px;
+}
+
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 0.9rem;
+}
+
+.statCard {
+  flex: 1 1 140px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.85rem 1rem;
+  background: #fff;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  border-radius: 18px;
+}
+
+.statValue {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111;
+}
+
+.statLabel {
+  font-size: 0.8rem;
+  color: #777;
+}
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.88rem;
+  background: #fff;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.table th {
+  padding: 0.45rem 0.6rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #888;
+  text-transform: lowercase;
+  border-bottom: 1px solid rgba(17, 17, 17, 0.1);
+}
+
+.thName {
+  text-align: left;
+}
+
+.thNum {
+  text-align: right;
+}
+
+.table td {
+  padding: 0.5rem 0.6rem;
+  border-bottom: 1px solid rgba(17, 17, 17, 0.05);
+  color: #111;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.tdName {
+  text-align: left;
+}
+
+.tdNum {
+  text-align: right;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}

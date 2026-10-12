@@ -1,0 +1,484 @@
+.wrap {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1rem 12px 3rem;
+  box-sizing: border-box;
+}
+
+@media (min-width: 769px) {
+  .wrap {
+    padding: 1.5rem 50px 3rem;
+  }
+}
+
+/* Шапка: слева название раздела и счётчики, справа витрина и «добавить». */
+.pageHead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0;
+  color: #111;
+  text-transform: lowercase;
+}
+
+.subtitle {
+  margin: 0.2rem 0 0;
+  font-size: 0.85rem;
+  color: #8c8c8c;
+}
+
+.headActions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.shopLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+  background: #f1f1f1;
+  color: #111;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  text-transform: lowercase;
+  transition: background 0.2s ease;
+}
+
+.shopLink:hover {
+  background: #e5e5e5;
+}
+
+.shopLink svg {
+  display: block;
+}
+
+.addBtn {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+  padding: 0.6rem 1.2rem;
+  background: #111;
+  color: #fff;
+  border: 1px solid #111;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  text-transform: lowercase;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.addBtn:hover {
+  background: #8a8a8a;
+  border-color: #8a8a8a;
+}
+
+/* Все фильтры списка в одной строке: поиск и статус. */
+.toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  padding: 0.75rem;
+  background: #fff;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  border-radius: 18px;
+  margin-bottom: 1rem;
+}
+
+.search {
+  flex: 1 1 220px;
+  min-width: 0;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.9rem;
+  font-family: inherit;
+  color: #111;
+  background: #fff;
+  border: 1px solid rgba(17, 17, 17, 0.12);
+  border-radius: 999px;
+  outline: none;
+}
+
+.search:focus {
+  border-color: #111;
+  box-shadow: 0 0 0 3px rgba(17, 17, 17, 0.08);
+}
+
+.statusTabs {
+  display: inline-flex;
+  padding: 3px;
+  background: #f1f1f1;
+  border-radius: 999px;
+}
+
+.tab {
+  padding: 0.4rem 0.9rem;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-family: inherit;
+  color: #555;
+  cursor: pointer;
+  text-transform: lowercase;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.tab:hover {
+  color: #111;
+}
+
+.tabActive {
+  background: #fff;
+  color: #111;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+.banner {
+  margin: 0 0 1rem;
+  padding: 0.7rem 1rem;
+  border-radius: 14px;
+  font-size: 0.9rem;
+}
+
+.bannerError {
+  background: #fdecea;
+  color: #b3261e;
+}
+
+.listCount {
+  margin: 0 0 0.75rem;
+  font-size: 0.85rem;
+  color: #8c8c8c;
+  text-transform: lowercase;
+}
+
+.message {
+  margin: 0;
+  padding: 2rem 0;
+  color: #8c8c8c;
+  text-align: center;
+}
+
+/* Список товаров: порядок — фото — название с бейджами — цена и действия. */
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+/* Строка целиком кликабельна: ссылка-название растянута на неё через ::after
+   (поэтому position: relative), а стрелки, переключатель и ссылка на витрину
+   подняты над этим слоем (z-index) и кликаются сами по себе. */
+.item {
+  position: relative;
+  /* Свой контекст наложения: z-index кнопок строки не всплывает над шапкой и меню. */
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: auto 56px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.9rem;
+  background: #fff;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  border-radius: 18px;
+  padding: 0.75rem 1rem;
+  color: inherit;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.item:hover {
+  border-color: rgba(17, 17, 17, 0.22);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.07);
+}
+
+.itemLink {
+  color: inherit;
+  text-decoration: none;
+  outline: none;
+  min-width: 0;
+}
+
+.itemLink::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  cursor: pointer;
+}
+
+/* Фокус с клавиатуры — рамка вокруг всей строки, а не только названия. */
+.itemLink:focus-visible::after {
+  box-shadow: 0 0 0 2px #111;
+}
+
+/* Стрелки порядка на витрине: столбиком слева от фото. */
+.orderArrows {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.arrowBtn {
+  width: 26px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid rgba(17, 17, 17, 0.12);
+  border-radius: 8px;
+  background: #fff;
+  color: #555;
+  font-size: 0.8rem;
+  font-weight: 700;
+  font-family: inherit;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.arrowBtn:hover:not(:disabled) {
+  background: #111;
+  color: #fff;
+  border-color: #111;
+}
+
+.arrowBtn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.itemPhoto {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  object-fit: cover;
+  background: #f5f5f5;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+}
+
+.itemPhotoEmpty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6rem;
+  color: #b0b0b0;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.itemBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.itemName {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111;
+  word-break: break-word;
+}
+
+.itemBadges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.itemMeta {
+  font-size: 0.8rem;
+  color: #8c8c8c;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Правая часть строки: цена, «на витрине», ссылка на витрину, «открыть». */
+.itemSide {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.itemPrice {
+  color: #111;
+  font-size: 0.95rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.badge {
+  display: inline-block;
+  padding: 2px 9px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  border-radius: 999px;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.badgeOff {
+  background: #b3261e;
+}
+
+.badgePreorder {
+  background: #4a6fa5;
+}
+
+/* Переключатель «на витрине»: чёрный — товар виден покупателям. */
+.switch {
+  position: relative;
+  z-index: 1;
+  flex: 0 0 auto;
+  width: 40px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: #d4d4d4;
+  cursor: pointer;
+  transition: background 0.2s ease, opacity 0.2s ease;
+}
+
+.switchKnob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease;
+}
+
+.switchOn {
+  background: #111;
+}
+
+.switchOn .switchKnob {
+  transform: translateX(16px);
+}
+
+.switch:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+.switch:focus-visible {
+  outline: 2px solid #111;
+  outline-offset: 2px;
+}
+
+.rowShopLink {
+  position: relative;
+  z-index: 1;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #f1f1f1;
+  color: #111;
+  transition: background 0.2s ease;
+}
+
+.rowShopLink:hover {
+  background: #e5e5e5;
+}
+
+.rowShopLink svg {
+  display: block;
+}
+
+.rowShopLinkOff {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.rowShopLinkOff:hover {
+  background: #f1f1f1;
+}
+
+/* «Открыть» — только подсказка: клик ловит растянутая ссылка-название. */
+.editBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  padding: 0.45rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-family: inherit;
+  background: #fff;
+  border: 1px solid rgba(17, 17, 17, 0.12);
+  border-radius: 999px;
+  cursor: pointer;
+  color: #111;
+  text-transform: lowercase;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.item:hover .editBtn {
+  background: #111;
+  color: #fff;
+  border-color: #111;
+}
+
+/* Телефон: стрелки, фото и название в первой строке, цена и действия — во второй. */
+@media (max-width: 600px) {
+  .item {
+    grid-template-columns: auto 48px minmax(0, 1fr);
+    row-gap: 0.6rem;
+    column-gap: 0.75rem;
+  }
+
+  .orderArrows {
+    grid-row: 1 / span 2;
+    align-self: center;
+  }
+
+  .itemPhoto {
+    width: 48px;
+    height: 48px;
+  }
+
+  .itemSide {
+    grid-column: 2 / -1;
+    grid-row: 2;
+    gap: 0.6rem;
+  }
+
+  .itemPrice {
+    margin-right: auto;
+  }
+
+  .itemMeta {
+    white-space: normal;
+  }
+}

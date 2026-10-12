@@ -1,0 +1,123 @@
+/* Подвал витрины — перенос подвала anyforms Marketplace. Тема магазина
+   (buildShopTheme) красит его в фон страницы: подвал отделён только тонкой
+   линией в цвет бренда, текст приглушённый — реквизиты видны, но не бросаются
+   в глаза. Фолбэки — тёмный подвал anyforms. */
+
+.siteFooter {
+  /* Подвал стоит под любой страницей витрины (StorefrontLayout), отделён
+     только линией — поэтому воздуха после контента больше, чем у тёмного
+     подвала anyforms. */
+  margin-top: 3.5rem;
+  padding: 40px 28px 32px;
+  background: var(--shop-footer-bg, #000);
+  box-sizing: border-box;
+  border-top: 1px solid var(--shop-footer-border, rgba(255, 255, 255, 0.08));
+}
+
+.footerGrid {
+  display: grid;
+  gap: 2rem;
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+@media (min-width: 720px) {
+  .footerGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2.5rem;
+    align-items: start;
+  }
+
+  /* Заполнен один блок из двух — не оставляем пустую колонку справа. */
+  .footerGridSingle {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 460px;
+    text-align: center;
+  }
+}
+
+.footerHeading {
+  margin: 0 0 0.75rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--shop-footer-heading, rgba(255, 255, 255, 0.95));
+  text-transform: uppercase;
+}
+
+.footerText {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+  color: var(--shop-footer-text, rgba(255, 255, 255, 0.72));
+}
+
+.footerLink {
+  color: var(--shop-footer-link, rgba(255, 255, 255, 0.88));
+  text-decoration: none;
+  border-bottom: 1px solid var(--shop-footer-link-border, rgba(255, 255, 255, 0.25));
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.footerLink:hover {
+  color: var(--shop-footer-link-hover, #fff);
+  border-bottom-color: var(--shop-footer-link-hover, rgba(255, 255, 255, 0.55));
+}
+
+.footerLegal {
+  margin: 2rem auto 0;
+  max-width: 920px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--shop-footer-text, rgba(255, 255, 255, 0.75));
+}
+
+.footerLegalLink {
+  font-size: 0.9rem;
+  color: var(--shop-footer-text, rgba(255, 255, 255, 0.75));
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.footerLegalLink:hover {
+  color: var(--shop-footer-link-hover, #fff);
+}
+
+.footerCopyright {
+  margin: 1.25rem 0 0;
+  text-align: center;
+  font-size: 0.82rem;
+  color: var(--shop-footer-muted, rgba(255, 255, 255, 0.45));
+}
+
+/* «Сделано на marketplace» — мелко и тихо: витрина живёт под брендом магазина. */
+.footerPlatform {
+  margin: 0.5rem 0 0;
+  text-align: center;
+  font-size: 0.75rem;
+}
+
+.footerPlatformLink {
+  color: var(--shop-footer-muted, rgba(255, 255, 255, 0.45));
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.footerPlatformLink:hover {
+  color: var(--shop-footer-link-hover, #fff);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (min-width: 900px) {
+  .siteFooter {
+    padding: 48px 28px 36px;
+  }
+}
+
+@media (max-width: 899px) {
+  .siteFooter {
+    padding: 32px 14px 24px;
+  }
+}

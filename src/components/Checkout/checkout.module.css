@@ -1,0 +1,420 @@
+/* Корзина, чекаут и страница оплаты — перенос anyforms checkout.module.css:
+   белая карточка, строчные жирные заголовки, пилюля-CTA с круглой стрелкой,
+   инпуты как на лендинге. Страницы рендерятся внутри StorefrontLayout: шапка
+   (и отступ под неё), подвал, прижатый к низу окна, и CSS-переменные темы
+   (--shop-*, buildShopTheme) приходят от него, поэтому фолбэки в var(…) нужны
+   только на случай рендера без темы. */
+
+.page {
+  width: 100%;
+  background: var(--shop-page-bg, #fff);
+  color: var(--color-base-black);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+  padding: 28px 14px 64px;
+  box-sizing: border-box;
+}
+
+.inner {
+  max-width: 640px;
+  margin: 0 auto;
+  background: #fff;
+  border: 1px solid #e2e2e2;
+  border-radius: 22px;
+  padding: 28px 24px 32px;
+  box-sizing: border-box;
+}
+
+@media (min-width: 720px) {
+  .page { padding: 48px 28px 80px; }
+  .inner { padding: 40px 40px 44px; }
+}
+
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.back {
+  color: #666;
+  font-size: 0.92rem;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+.back:hover { color: var(--color-base-black); }
+
+.eyebrow {
+  display: inline-block;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  text-transform: lowercase;
+  font-weight: 600;
+  color: #8c8c8c;
+  margin-bottom: 8px;
+}
+
+.title {
+  margin: 0 0 24px;
+  font-size: 1.6rem;
+  line-height: 1.15;
+  font-weight: 700;
+  font-family: var(--shop-title-font, inherit);
+  color: var(--shop-heading, var(--color-base-black));
+  text-transform: var(--shop-title-transform, lowercase);
+}
+
+/* Список позиций корзины */
+.cartList { display: flex; flex-direction: column; gap: 10px; margin: 0 0 22px; }
+
+.cartRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #fafafa;
+  border: 1px solid #ececec;
+  border-radius: 14px;
+  padding: 12px 14px;
+}
+
+.cartPhoto {
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
+  object-fit: cover;
+  background: var(--shop-photo-bg, #f0f0f0);
+  flex-shrink: 0;
+}
+
+.cartInfo { flex: 1; min-width: 0; }
+.cartName { font-size: 1rem; font-weight: 600; margin: 0 0 4px; color: var(--color-base-black); }
+/* Название ведёт на карточку товара — выглядит как текст, подчёркивается при наведении. */
+.cartNameLink { color: inherit; text-decoration: none; }
+.cartNameLink:hover { text-decoration: underline; text-underline-offset: 3px; }
+.cartUnit { font-size: 0.85rem; color: #8c8c8c; }
+
+.qty { display: flex; align-items: center; gap: 8px; }
+.qtyBtn {
+  width: 30px; height: 30px; border-radius: 8px;
+  border: 1px solid #ccc; background: #fff; color: var(--color-base-black);
+  font-size: 18px; line-height: 1; cursor: pointer;
+  transition: background 0.15s ease;
+}
+.qtyBtn:hover:not(:disabled) { background: #f0f0f0; }
+.qtyBtn:disabled { opacity: 0.4; cursor: default; }
+.qtyVal { min-width: 22px; text-align: center; font-size: 1rem; font-weight: 600; }
+
+.rowPrice { font-size: 1rem; font-weight: 700; white-space: nowrap; min-width: 78px; text-align: right; }
+
+.removeBtn {
+  background: none; border: none; color: #bbb; font-size: 22px; line-height: 1;
+  cursor: pointer; padding: 4px; transition: color 0.15s ease;
+}
+.removeBtn:hover { color: var(--color-base-black); }
+
+/* Мобилка: строка корзины в две линии — фото на обе, сверху название и крестик,
+   снизу степпер количества и сумма */
+@media (max-width: 560px) {
+  .cartRow {
+    display: grid;
+    grid-template-columns: 60px 1fr auto;
+    grid-template-areas:
+      'photo info remove'
+      'photo qty  price';
+    column-gap: 12px;
+    row-gap: 10px;
+  }
+  .cartPhoto { grid-area: photo; align-self: start; }
+  .cartInfo { grid-area: info; }
+  .cartName { overflow-wrap: anywhere; }
+  .qty { grid-area: qty; }
+  .rowPrice { grid-area: price; min-width: 0; align-self: center; }
+  .removeBtn { grid-area: remove; justify-self: end; align-self: start; }
+}
+
+/* Сводка / итог */
+.summary {
+  background: #fafafa;
+  border: 1px solid #ececec;
+  border-radius: 14px;
+  padding: 16px 18px;
+  margin-bottom: 24px;
+}
+.summaryRow { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-size: 0.95rem; color: #333; padding: 6px 0; }
+/* Длинное значение («на ПВЗ при получении») на узком экране переносится, но держится правого края. */
+.summaryRow > span:last-child { text-align: right; }
+.summaryTotal { font-size: 1.1rem; font-weight: 700; color: var(--color-base-black); border-top: 1px solid #e2e2e2; margin-top: 6px; padding-top: 14px; }
+.deliveryQuote { font-size: 0.88rem; color: #8c8c8c; margin: 8px 0 0; }
+
+/* Плашка-пояснение (доставка, «магазин не принимает заказы», убранные позиции).
+   Красится в палитру магазина теми же note-переменными, что плашка предзаказа
+   на странице товара (в anyforms — .moldNote). */
+.note {
+  background: var(--shop-note-bg, #eef3fa);
+  border: 1px solid var(--shop-note-border, #c4d3e8);
+  border-left: 4px solid var(--shop-badge-bg, #4a6fa5);
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin: 14px 0 0;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--shop-note-text, #3a4a5e);
+}
+
+.note strong {
+  color: var(--shop-note-fg, #2e4a70);
+}
+
+/* Та же плашка над списком/формой: отступ снизу вместо сверху. */
+.noteTop { margin: 0 0 18px; }
+
+/* Информативные позиции заказа: фото + название + счёт */
+.orderItems { display: flex; flex-direction: column; gap: 12px; margin-bottom: 14px; }
+.orderItem { display: flex; align-items: flex-start; gap: 12px; }
+.orderThumb {
+  width: 56px;
+  height: 56px;
+  border-radius: 10px;
+  object-fit: cover;
+  background: var(--shop-photo-bg, #f0f0f0);
+  flex-shrink: 0;
+}
+.orderItemInfo { flex: 1; min-width: 0; }
+.orderItemName { font-size: 0.95rem; font-weight: 600; color: var(--color-base-black); margin: 0; overflow-wrap: anywhere; }
+.orderItemMeta { font-size: 0.82rem; color: #8c8c8c; margin: 4px 0 0; }
+.orderItemPrice { font-size: 0.95rem; font-weight: 700; white-space: nowrap; color: var(--color-base-black); }
+.summaryDivider { border: none; border-top: 1px solid #ececec; margin: 4px 0 8px; }
+
+/* Форма */
+.form { display: flex; flex-direction: column; }
+.label { font-size: 0.9rem; font-weight: 600; color: var(--color-base-black); margin: 18px 0 7px; }
+.labelFirst { margin-top: 4px; }
+.req { color: #8c8c8c; }
+.optional { color: #8c8c8c; font-weight: 400; }
+
+.input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.85rem 0.85rem;
+  font-size: 0.96rem;
+  font-family: inherit;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background: #fff;
+  color: var(--color-base-black);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+.input:focus { border-color: var(--shop-accent, var(--color-base-black)); }
+.inputError { border-color: #c62828; }
+.inputError:focus { border-color: #b71c1c; }
+
+/* Комментарий к заказу — тот же инпут, но многострочный. */
+.textarea {
+  min-height: 92px;
+  resize: vertical;
+  line-height: 1.45;
+}
+
+.fieldError { color: #c62828; font-size: 0.8rem; margin: 6px 0 0; }
+.hint { color: #8c8c8c; font-size: 0.8rem; margin: 6px 0 0; }
+
+/* Метка предзаказа у позиции корзины */
+.preorderTag {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 8px;
+  background: var(--shop-badge-bg, #4a6fa5);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 700;
+  border-radius: 999px;
+  vertical-align: middle;
+}
+
+.checkRow { display: flex; gap: 10px; align-items: flex-start; margin-top: 16px; cursor: pointer; }
+.checkbox { margin-top: 3px; width: 18px; height: 18px; flex-shrink: 0; accent-color: var(--shop-accent, var(--color-base-black)); }
+.checkText { font-size: 0.86rem; line-height: 1.5; color: #444; }
+.inlineLink { color: var(--shop-accent, var(--color-base-black)); font-weight: 600; text-decoration: underline; overflow-wrap: anywhere; }
+/* Телефон продавца (ShopSupport, «Возникли вопросы?») не рвём: неразрывные пробелы
+   не спасали от переноса по дефисам и overflow-wrap: anywhere выше. Номер короткий —
+   целиком уходит на следующую строку и не вылезает за край даже на узком экране. */
+.inlineLink[href^="tel:"] { white-space: nowrap; overflow-wrap: normal; }
+/* Ошибка под галочкой согласия — вровень с текстом, а не с самим чекбоксом
+   (18px чекбокс + 10px gap у .checkRow). */
+.checkRow + .fieldError { padding-left: 28px; }
+
+.error { color: #c62828; font-size: 0.88rem; margin: 16px 0 0; }
+
+/* Пилюля-CTA с круглой стрелкой (как .cta на лендингах anyforms); цвет — акцент магазина */
+.payBtn {
+  margin-top: 26px;
+  width: 100%;
+  box-sizing: border-box;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding: 0.3rem 0.35rem 0.3rem 1.4rem;
+  font-size: 1.02rem;
+  font-weight: 700;
+  font-family: inherit;
+  color: var(--shop-cta-fg, #fff);
+  background: var(--shop-cta-bg, var(--color-base-black));
+  border: 1px solid var(--shop-cta-bg, var(--color-base-black));
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 0.25s ease, color 0.25s ease, opacity 0.2s ease, transform 0.15s ease;
+}
+.payBtn:hover:not(:disabled) { background: var(--shop-cta-hover-bg, var(--color-base-gray)); color: var(--shop-cta-hover-fg, var(--color-base-black)); }
+.payBtn:active:not(:disabled) { transform: scale(0.99); }
+.payBtn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.ctaArrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--shop-cta-fg, #fff);
+  color: var(--shop-cta-bg, var(--color-base-black));
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.support { font-size: 0.82rem; color: #8c8c8c; margin-top: 16px; text-align: center; line-height: 1.5; }
+.support .inlineLink { color: var(--shop-accent, #333); }
+
+/* Пустая корзина / результат оплаты */
+.centered { text-align: center; padding: 40px 0; }
+.centeredTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 12px;
+  font-family: var(--shop-title-font, inherit);
+  color: var(--shop-heading, inherit);
+  text-transform: var(--shop-title-transform, lowercase);
+}
+.centeredText { font-size: 1rem; color: #444; margin: 0 0 24px; line-height: 1.6; }
+
+/* Номер заказа: всегда заглавные и обычные (lining) цифры — в шрифтах со
+   старостильными цифрами ноль высотой со строчную букву и читается как «o». */
+.orderNumber {
+  text-transform: uppercase;
+  font-variant-numeric: lining-nums;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Кнопки результата оплаты в ряд; на узком экране переносятся. */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* .primaryLink бывает и <a>, и <button> («Проверить ещё раз»): шрифт и курсор задаём явно. */
+.primaryLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.3rem 0.35rem 0.3rem 1.25rem;
+  background: var(--shop-cta-bg, var(--color-base-black));
+  color: var(--shop-cta-fg, #fff);
+  border: 1px solid var(--shop-cta-bg, var(--color-base-black));
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+.primaryLink:hover { background: var(--shop-cta-hover-bg, var(--color-base-gray)); color: var(--shop-cta-hover-fg, var(--color-base-black)); }
+
+/* Второстепенное действие рядом с CTA: та же пилюля, но контурная. */
+.secondaryLink {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.55rem 1.25rem;
+  background: transparent;
+  color: var(--shop-accent, var(--color-base-black));
+  border: 1px solid var(--shop-accent, var(--color-base-black));
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+.secondaryLink:hover { background: var(--shop-accent, var(--color-base-black)); color: var(--shop-cta-fg, #fff); }
+
+.successIcon,
+.failIcon,
+.pendingIcon,
+.waitIcon {
+  width: 64px; height: 64px; margin: 0 auto 16px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  font-size: 32px;
+  box-sizing: border-box;
+}
+.successIcon {
+  background: var(--shop-cta-bg, var(--color-base-black));
+  color: var(--shop-cta-fg, #fff);
+}
+.failIcon {
+  background: #c62828;
+  color: #fff;
+}
+
+/* Опрос закончился, а банк так и не ответил: спокойная «пауза» в палитре плашек. */
+.waitIcon {
+  background: var(--shop-note-bg, #f0f0f0);
+  border: 1px solid var(--shop-note-border, #e2e2e2);
+  color: var(--shop-note-fg, #555);
+  line-height: 1;
+}
+
+/* Ждём подтверждения банка: кольцо-спиннер в цвет акцента. */
+.pendingIcon {
+  border: 4px solid var(--shop-note-border, #e2e2e2);
+  border-top-color: var(--shop-accent, var(--color-base-black));
+  animation: spin 0.9s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .pendingIcon { animation-duration: 2.4s; }
+}
+
+/* Чек заказа на странице результата оплаты */
+.receipt {
+  max-width: 440px;
+  margin: 0 auto 28px;
+  padding: 16px 18px;
+  background: #fafafa;
+  border: 1px solid #ececec;
+  border-radius: 14px;
+  text-align: left;
+}
+.receiptTitle {
+  font-size: 0.8rem; font-weight: 700; color: #8c8c8c;
+  text-transform: uppercase; letter-spacing: 0.06em;
+  margin: 0 0 8px;
+}
+.receiptRow {
+  display: flex; justify-content: space-between; align-items: baseline;
+  gap: 12px; font-size: 0.95rem; color: #333; padding: 5px 0;
+}
+.receiptName { margin: 0; overflow-wrap: anywhere; }
+.receiptQty { color: #8c8c8c; white-space: nowrap; }
+.receiptPrice { white-space: nowrap; font-weight: 600; color: var(--color-base-black); }
+.receiptTotal {
+  font-size: 1.05rem; font-weight: 700; color: var(--color-base-black);
+  border-top: 1px solid #e2e2e2; margin-top: 6px; padding-top: 12px;
+}
+.receiptNote { font-size: 0.88rem; color: #555; margin: 12px 0 0; line-height: 1.5; }

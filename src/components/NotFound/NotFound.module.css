@@ -1,0 +1,237 @@
+.page {
+  --edge-mobile: 14px;
+  --edge-desktop: 28px;
+  --header-h: 78px;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #000;
+  color: #fff;
+  padding-top: var(--header-h);
+  box-sizing: border-box;
+}
+
+/* Словомарка платформы строчными (перебивает uppercase .logoText из SiteHeader). */
+.brandWordmark {
+  display: inline-block;
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-transform: none;
+  color: #fff;
+}
+
+.hero {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px var(--edge-mobile);
+}
+
+.heroCard {
+  width: 100%;
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+  padding: clamp(1.75rem, 4vw, 3rem) clamp(1.25rem, 3vw, 2.5rem);
+  border-radius: 22px;
+  background: #e9e9e9;
+  box-sizing: border-box;
+}
+
+.code {
+  margin: 0;
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  font-size: clamp(4.5rem, 16vw, 9rem);
+  color: #111;
+}
+
+.title {
+  margin: 0;
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  font-size: clamp(1.5rem, 4vw, 2.4rem);
+  color: #111;
+}
+
+.text {
+  margin: 0;
+  max-width: 34rem;
+  font-size: clamp(1rem, 1.1vw, 1.2rem);
+  line-height: 1.4;
+  color: #2b2b2b;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+/* Чёрная пилюля-CTA с круглой белой стрелкой (перенос CTAButton anyforms). */
+.cta {
+  display: inline-flex;
+  align-self: center;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding: 0.25rem 0.3rem 0.25rem 1rem;
+  background: #111;
+  color: #fff;
+  border: 1px solid #111;
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: 999px;
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease,
+    opacity 0.2s ease, transform 0.15s ease;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.cta:hover {
+  background: #8a8a8a;
+  color: #111;
+  border-color: #111;
+}
+
+.cta:active {
+  transform: scale(0.98);
+}
+
+.ctaArrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: #fff;
+  color: #111;
+  font-size: 1.2rem;
+  line-height: 1;
+  transform: translateX(0);
+  transition: transform 0.25s ease;
+}
+
+.cta:hover .ctaArrow {
+  transform: translateX(-0.45rem);
+}
+
+.secondaryCta {
+  background: transparent;
+  color: #111;
+}
+
+.secondaryCta .ctaArrow {
+  background: #111;
+  color: #fff;
+}
+
+.secondaryCta:hover {
+  background: #d6d6d6;
+  color: #111;
+}
+
+@media (min-width: 900px) {
+  .hero {
+    padding: 72px var(--edge-desktop);
+  }
+}
+
+.siteFooter {
+  padding: 40px var(--edge-desktop) 32px;
+  background: #000;
+  box-sizing: border-box;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footerGrid {
+  display: grid;
+  gap: 2rem;
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+@media (min-width: 720px) {
+  .footerGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2.5rem;
+    align-items: start;
+  }
+}
+
+.footerHeading {
+  margin: 0 0 0.75rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.95);
+  text-transform: uppercase;
+}
+
+.footerText {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.footerLink {
+  color: rgba(255, 255, 255, 0.88);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.footerLink:hover {
+  color: #fff;
+  border-bottom-color: rgba(255, 255, 255, 0.55);
+}
+
+.footerLegal {
+  margin: 2rem auto 0;
+  max-width: 920px;
+  text-align: center;
+}
+
+.footerLegalLink {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.footerLegalLink:hover {
+  color: #fff;
+}
+
+.footerCopyright {
+  margin: 1.25rem 0 0;
+  text-align: center;
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+@media (min-width: 900px) {
+  .siteFooter {
+    padding: 48px var(--edge-desktop) 36px;
+  }
+}
+
+@media (max-width: 899px) {
+  .siteFooter {
+    padding: 32px var(--edge-mobile) 24px;
+  }
+}

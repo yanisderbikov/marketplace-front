@@ -1,0 +1,28 @@
+/* Дизайн лайка как в drops: прозрачное сердечко, розовое в активном состоянии */
+.likeBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: #111;
+  cursor: pointer;
+  transition: transform 0.12s ease;
+}
+.likeBtn:hover { transform: scale(1.12); }
+.likeBtn:active { transform: scale(0.95); }
+
+.liked { color: #f0808f; }
+
+/* z-index выше растянутой ссылки карточки (ProductCard .link::after),
+   иначе клик по сердечку открывал бы товар. */
+.overlay {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+}

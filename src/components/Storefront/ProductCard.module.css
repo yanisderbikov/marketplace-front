@@ -1,0 +1,353 @@
+.card {
+  /* Опора для растянутой ссылки (.link::after) — она закрывает всю карточку. */
+  position: relative;
+  width: 100%;
+  max-width: 200px;
+  /* Высота — по содержимому (фото + название + цена); карточки одного ряда
+     выравниваются между собой за счёт stretch у ячейки сетки. */
+  height: auto;
+  background: #fff;
+  border-radius: 22px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.12);
+}
+
+.photoWrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  background: #f5f5f5;
+  overflow: hidden;
+}
+
+.photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Вторая фотография товара: лежит поверх первой и проявляется при наведении.
+   Бейджи идут ниже в разметке, поэтому остаются видны, лайк выше по z-index. */
+.photoHover {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+/* Только там, где есть настоящее наведение: на тач-экранах фото не «залипает». */
+@media (hover: hover) {
+  .card:hover .photoHover {
+    opacity: 1;
+  }
+}
+
+.card:focus-within .photoHover {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .photoHover {
+    transition: none;
+  }
+}
+
+.discountBadge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #b3541e;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(120, 60, 20, 0.25);
+}
+
+.preorderBadge {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background: var(--shop-badge-bg, #4a6fa5);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(30, 50, 80, 0.25);
+}
+
+.body {
+  padding: 0.95rem 1rem 1rem;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.name {
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 0 0 0.5rem;
+  color: #000;
+  font-family: var(--shop-title-font, inherit);
+  /* anyforms писал названия строчными; у нас названия вводят разные мерчанты
+     (бренды, имена собственные), поэтому тема витрины (--shop-title-transform: none)
+     показывает их как введены. */
+  text-transform: var(--shop-title-transform, lowercase);
+  flex-shrink: 0;
+}
+
+/* Ссылка на товар — само название; ::after растягивает её на всю карточку,
+   поэтому кликабельны и фото, и цена. Сердечко лежит выше (z-index 2). */
+.link {
+  color: inherit;
+  text-decoration: none;
+  outline: none;
+}
+
+.link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: 22px;
+}
+
+/* Фокус с клавиатуры обводит всю карточку, а не только строку названия. */
+.link:focus-visible::after {
+  outline: 2px solid var(--shop-accent, #111);
+  outline-offset: 3px;
+}
+
+.prices {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 0;
+  flex-shrink: 0;
+}
+
+/* В карточке-плашке цена прижата к низу: у соседей по ряду название может
+   занять две строки, но цены всё равно стоят на одной линии. Отступ сверху —
+   чтобы название и цена не читались одной строкой. */
+.card:not(.boutique) .prices {
+  margin-top: auto;
+  padding-top: 0.4rem;
+}
+
+/* Цена мельче и легче названия: заголовок ведёт, цена — подпись под ним. */
+.price {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--shop-accent, #222);
+}
+
+.crossedPrice {
+  font-size: 0.85rem;
+  color: #999;
+  text-decoration: line-through;
+}
+
+/* ── Бутиковая подача (витрины /shop/{slug}) ──────────────────────────────
+   Фото — герой: крупная плитка 3:4 без рамки-карточки, под ней только
+   название и цена. Исходники часто вертикальные с «воздухом» сверху,
+   поэтому кадрируем с прижимом к нижней части кадра. */
+
+.boutique {
+  max-width: none;
+  height: auto;
+  max-height: none;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  overflow: visible;
+  box-shadow: none;
+}
+
+.boutique:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.boutique .photoWrap {
+  aspect-ratio: 3 / 4;
+  border-radius: 14px;
+  background: var(--shop-photo-bg, #ece7dd);
+}
+
+/* Обводка фокуса повторяет скругление фото, а не прямоугольник ячейки. */
+.boutique .link::after {
+  border-radius: 14px;
+}
+
+.boutique .photo,
+.boutique .photoHover {
+  object-position: 50% 70%;
+  transition: transform 0.5s ease, opacity 0.3s ease;
+}
+
+@media (hover: hover) {
+  .boutique:hover .photo,
+  .boutique:hover .photoHover {
+    transform: scale(1.03);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .boutique .photo,
+  .boutique .photoHover {
+    transition: none;
+  }
+}
+
+/* Сердечко на фото: без плашки. Белый контур в режиме difference сам
+   «инвертируется» под фоном — тёмный на светлых кадрах, белый на чёрных. */
+.boutique .photoWrap button {
+  color: #fff;
+  mix-blend-mode: difference;
+}
+
+/* «В избранном» — акцентная заливка витрины без инверсии, чтобы цвет
+   бренда не искажался блендингом. */
+.boutique .photoWrap button[aria-pressed='true'] {
+  color: var(--shop-accent, #f0808f);
+  mix-blend-mode: normal;
+}
+
+.boutique .body {
+  padding: 0.7rem 2px 0;
+}
+
+/* В anyforms имя шло строчными с заглавной первой буквой (выравнивало разнобой
+   регистра в названиях). Здесь регистр — как ввёл мерчант (см. .name): правило
+   ::first-letter убрано, иначе «iPhone» превращался бы в «IPhone». */
+.boutique .name {
+  font-size: 0.95rem;
+  font-weight: 400;
+  line-height: 1.35;
+  margin: 0 0 0.3rem;
+  color: var(--shop-text, #333);
+}
+
+.boutique .prices {
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+/* Спокойный вес и цвет цены: на витрине-галерее кричащая жирная цена
+   ломает настроение. */
+.boutique .price {
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--shop-text, #333);
+}
+
+.boutique .crossedPrice {
+  font-size: 0.82rem;
+  color: #a9968e;
+}
+
+@media (min-width: 769px) {
+  .boutique .name {
+    font-size: 1.05rem;
+  }
+
+  .boutique .price {
+    font-size: 1rem;
+  }
+}
+
+/* Бейджи в палитре витрины: скидка — акцентный цвет темы, предзаказ —
+   кремовая плашка; без теней и кислотных цветов. */
+.boutique .discountBadge {
+  background: var(--shop-accent, #9a3412);
+  color: var(--shop-btn-hover-fg, #fff);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 4px 7px;
+  border-radius: 6px;
+  box-shadow: none;
+}
+
+.boutique .preorderBadge {
+  background: rgba(244, 238, 227, 0.94);
+  /* Текст контрастирует с кремовой плашкой, а не с фоном страницы. */
+  color: var(--shop-preorder-badge-fg, var(--shop-text, #444));
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  border-radius: 6px;
+  box-shadow: none;
+}
+
+/* ── Скелетон карточки (ProductCardSkeleton) ──────────────────────────────
+   Пока грузится каталог: рамка карточки та же, вместо фото — подложка, вместо
+   текста — полоски цвета текста на 14% (в теме витрины они получают её
+   оттенок). По всем блокам проходит мягкий блик. */
+.skeleton {
+  pointer-events: none;
+}
+
+.skeleton .photoWrap {
+  background: var(--shop-photo-bg, #eee);
+}
+
+.skeletonLine {
+  position: relative;
+  display: inline-block;
+  height: 0.8em;
+  max-width: 100%;
+  vertical-align: middle;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(17, 17, 17, 0.1);
+  background: color-mix(in srgb, currentColor 14%, transparent);
+}
+
+.shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.55) 50%,
+    transparent 100%
+  );
+  transform: translateX(-100%);
+  animation: skeletonShimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes skeletonShimmer {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shimmer::after {
+    display: none;
+  }
+}

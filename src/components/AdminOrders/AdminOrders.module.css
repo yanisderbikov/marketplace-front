@@ -1,0 +1,343 @@
+/* Сетка страницы — как у остальных страниц кабинета (и плашки готовности в AdminLayout). */
+.wrap {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1rem 12px 3rem;
+  box-sizing: border-box;
+  position: relative;
+}
+
+@media (min-width: 769px) {
+  .wrap {
+    padding: 1.5rem 50px 3rem;
+  }
+}
+
+/* Шапка: слева название раздела, справа «обновить». */
+.pageHead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0;
+  color: #111;
+  text-transform: lowercase;
+}
+
+.subtitle {
+  margin: 0.2rem 0 0;
+  font-size: 0.85rem;
+  color: #8c8c8c;
+}
+
+.refreshBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  padding: 0.5rem 0.9rem;
+  border: none;
+  border-radius: 999px;
+  background: #f1f1f1;
+  color: #111;
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  text-transform: lowercase;
+  transition: background 0.2s ease, opacity 0.2s ease;
+}
+
+.refreshBtn:hover:not(:disabled) {
+  background: #fff;
+}
+
+.refreshBtn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* Фильтры: две группы вкладок (оплата / исполнение) в одну строку, на узком — друг под другом. */
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.filterGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.filterLabel {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #888;
+  text-transform: lowercase;
+  white-space: nowrap;
+}
+
+/* Вкладки — как переключатель режимов списка заказов anyforms. */
+.modeTabs {
+  display: inline-flex;
+  gap: 0.25rem;
+  background: #fff;
+  border: 1px solid rgba(17, 17, 17, 0.1);
+  border-radius: 999px;
+  padding: 0.25rem;
+  /* Не center: при переполнении центрированный ряд обрезается слева без прокрутки. */
+  justify-content: flex-start;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  /* Пять вкладок исполнения на узком экране не влезают — листаются вбок. */
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.modeTabs::-webkit-scrollbar {
+  display: none;
+}
+
+.modeTab {
+  border: none;
+  background: transparent;
+  color: #111;
+  font-size: 0.9rem;
+  font-weight: 700;
+  font-family: inherit;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  cursor: pointer;
+  text-transform: lowercase;
+  white-space: nowrap;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.modeTab:hover {
+  background: #f1f1f1;
+}
+
+.modeTabActive,
+.modeTabActive:hover {
+  background: #111;
+  color: #fff;
+}
+
+@media (max-width: 480px) {
+  .controls {
+    flex-direction: column;
+    align-items: stretch;
+    margin-bottom: 1rem;
+  }
+
+  .filterGroup {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.35rem;
+  }
+
+  .filterLabel {
+    padding-left: 0.9rem;
+  }
+
+  .modeTabs {
+    display: flex;
+    width: 100%;
+  }
+
+  .modeTab {
+    flex: 1 0 auto;
+    padding: 0.5rem 0.6rem;
+    font-size: 0.78rem;
+  }
+}
+
+.listCount {
+  margin: 0 0 0.75rem;
+  font-size: 0.85rem;
+  color: #8c8c8c;
+  text-transform: lowercase;
+}
+
+.cardsContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+  gap: 1.25rem;
+  /* Карточки разной высоты (разное число товаров) — не растягиваем соседей по ряду. */
+  align-items: start;
+}
+
+.loadMoreWrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.loadMoreBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  padding: 0.8rem 1.6rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  font-family: inherit;
+  background: #fff;
+  border: 1px solid rgba(17, 17, 17, 0.12);
+  border-radius: 999px;
+  cursor: pointer;
+  color: #111;
+  text-transform: lowercase;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.loadMoreBtn:hover:not(:disabled) {
+  background: #111;
+  color: #fff;
+  border-color: #111;
+}
+
+.loadMoreBtn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: #fff;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+  border-radius: 22px;
+}
+
+.emptyText {
+  color: #555;
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-transform: lowercase;
+  margin: 0;
+}
+
+.emptyHint {
+  margin: 0.5rem 0 0;
+  font-size: 0.9rem;
+  color: #8c8c8c;
+}
+
+.resetBtn {
+  margin-top: 1rem;
+  padding: 0.6rem 1.2rem;
+  background: #111;
+  color: #fff;
+  border: 1px solid #111;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  text-transform: lowercase;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.resetBtn:hover {
+  background: #8a8a8a;
+  border-color: #8a8a8a;
+}
+
+/* Ошибка загрузки — как .error на странице аналитики, плюс «повторить». */
+.errorBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.6rem 1rem;
+  padding: 0.6rem 0.6rem 0.6rem 0.9rem;
+  background: rgba(200, 40, 40, 0.08);
+  border-radius: 12px;
+}
+
+.errorText {
+  margin: 0;
+  flex: 1 1 220px;
+  font-size: 0.9rem;
+  color: #a02020;
+}
+
+.retryBtn {
+  padding: 0.45rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-family: inherit;
+  background: #fff;
+  border: 1px solid rgba(17, 17, 17, 0.12);
+  border-radius: 999px;
+  cursor: pointer;
+  color: #111;
+  text-transform: lowercase;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.retryBtn:hover {
+  background: #111;
+  color: #fff;
+  border-color: #111;
+}
+
+/* Loader (matches marketplace spinner) */
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  gap: 1rem;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 4px solid rgba(17, 17, 17, 0.12);
+  border-top-color: #111;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation-duration: 1.6s;
+  }
+}
+
+.loadingText {
+  color: #555;
+  font-size: 1rem;
+  font-weight: 500;
+  text-transform: lowercase;
+}
+
+@media (max-width: 768px) {
+  .cardsContainer {
+    grid-template-columns: 1fr;
+  }
+}
