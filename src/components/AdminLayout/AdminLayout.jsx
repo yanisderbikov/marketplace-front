@@ -240,7 +240,7 @@ const AdminLayout = () => {
         {hasShop && storefrontSlug && (
           <a
             className={styles.storefrontLink}
-            href={`/shop/${storefrontSlug}`}
+            href={shop?.customDomain ? `https://${shop.customDomain}` : `/shop/${storefrontSlug}`}
             target="_blank"
             rel="noopener noreferrer"
           >

@@ -4,6 +4,7 @@ import { useCart } from '../../context/CartContext';
 import { formatPrice } from '../../shared/money';
 import { useCartRefresh } from './useCartRefresh';
 import styles from './checkout.module.css';
+import { shopPath } from '../Storefront/storefrontPaths';
 
 // Бэк принимает quantity 1..99 в позиции заказа — дальше «+» не пускаем.
 const MAX_QUANTITY = 99;
@@ -18,7 +19,7 @@ const Cart = () => {
   const navigate = useNavigate();
   // Корзина из localStorage могла устареть — сверяем со свежим каталогом витрины.
   const { removedNames } = useCartRefresh(slug, items, syncWithProducts);
-  const shopBase = `/shop/${slug}`;
+  const shopBase = shopPath(slug);
   const acceptsOrders = Boolean(shop?.acceptsOrders);
 
   // Заголовок вкладки: StorefrontLayout ставит название магазина раньше (layout-эффект),
@@ -78,7 +79,7 @@ const Cart = () => {
                   <div className={styles.cartInfo}>
                     <p className={styles.cartName}>
                       <Link
-                        to={`${shopBase}/product/${encodeURIComponent(item.productId)}`}
+                        to={shopPath(slug, `product/${encodeURIComponent(item.productId)}`)}
                         className={styles.cartNameLink}
                       >
                         {lineName(item)}
@@ -139,7 +140,7 @@ const Cart = () => {
               <button
                 type="button"
                 className={styles.payBtn}
-                onClick={() => navigate(`${shopBase}/checkout`)}
+                onClick={() => navigate(shopPath(slug, 'checkout'))}
               >
                 <span>Оформить заказ</span>
                 <span className={styles.ctaArrow} aria-hidden="true">→</span>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { BRAND_NAME } from '../../config/brand';
-import { shopBase, tgLink } from './storefrontPaths';
+import { shopBase, shopPath, tgLink } from './storefrontPaths';
 import styles from './ShopFooter.module.css';
 
 // Ссылка tel: — только цифры и «+»: пробелы, скобки и дефисы из поля
@@ -89,11 +89,11 @@ const ShopFooter = ({ shop, slug }) => {
         </div>
       )}
       <p className={styles.footerLegal}>
-        <Link to={`${base}/offer`} className={styles.footerLegalLink}>
+        <Link to={shopPath(slug, 'offer')} className={styles.footerLegalLink}>
           Публичная оферта
         </Link>
         {' · '}
-        <Link to={`${base}/privacy`} className={styles.footerLegalLink}>
+        <Link to={shopPath(slug, 'privacy')} className={styles.footerLegalLink}>
           Политика конфиденциальности
         </Link>
       </p>

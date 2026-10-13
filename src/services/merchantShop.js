@@ -76,3 +76,10 @@ export const saveYookassa = (payload) =>
 /** Через кого витрина принимает оплату: provider — 'TINKOFF' | 'YOOKASSA' (должен быть подключён). */
 export const selectPaymentProvider = (provider) =>
   api.put('/api/merchant/shop/payment/provider', { provider }).then((res) => res.data);
+
+/**
+ * Свой домен витрины: { domain } → MerchantShopDTO. Пусто — отвязать. Бэк приводит домен к виду
+ * без схемы, пути и www (кириллица — в punycode); 400 — некорректный, 409 — у другого магазина.
+ */
+export const saveDomain = (domain) =>
+  api.put('/api/merchant/shop/domain', { domain }).then((res) => res.data);

@@ -7,7 +7,7 @@ import { errorMessage } from '../../shared/errors';
 import AspectPhoto from '../shared/AspectPhoto/AspectPhoto';
 import LikeButton from './LikeButton';
 import { useFooterHold } from './useFooterHold';
-import { shopBase, tgLink } from './storefrontPaths';
+import { shopBase, shopPath, tgLink } from './storefrontPaths';
 import styles from './ProductPage.module.css';
 
 // Бэк принимает quantity 1..99 в позиции заказа (корзина тоже режет до 99).
@@ -328,7 +328,7 @@ const ProductPage = () => {
             )}
 
             {canOrder && inCart > 0 && (
-              <Link to={`${base}/cart`} className={styles.goToCart}>
+              <Link to={shopPath(slug, 'cart')} className={styles.goToCart}>
                 Перейти в корзину
               </Link>
             )}

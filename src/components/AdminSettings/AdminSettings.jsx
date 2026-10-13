@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 import PvzSelect from '../shared/PvzSelect/PvzSelect';
 import { saveCdek, saveSettings } from '../../services/merchantShop';
 import { errorMessage } from '../../shared/errors';
+import DomainSettings from './DomainSettings';
 import PaymentProviderCards from './PaymentProviderCards';
 import { providerByCode } from './paymentProviders';
 import { legacyTaxLabel, outdatedReceiptSettings } from './receiptOptions';
@@ -16,6 +17,7 @@ const SECTION_IDS = {
   seller: 'settings-seller',
   delivery: 'settings-delivery',
   payment: 'settings-payment',
+  domain: 'settings-domain',
 };
 
 // Чего не хватает для приёма заказов (MerchantShopDTO.missingForOrders, порядок
@@ -446,7 +448,7 @@ const AdminSettings = () => {
     <div className={styles.wrap}>
       <header className={styles.pageHead}>
         <h1 className={styles.title}>настройки</h1>
-        <p className={styles.subtitle}>Контакты, данные продавца, доставка СДЭК и оплата витрины.</p>
+        <p className={styles.subtitle}>Контакты, данные продавца, доставка СДЭК, оплата и свой домен витрины.</p>
       </header>
 
       <ReadinessStatus shop={shop} />
@@ -698,6 +700,10 @@ const AdminSettings = () => {
         hint="Деньги покупателей приходят прямо на ваш счёт — платформа их не касается. Подключить можно обе платёжки, оплату витрина принимает через одну."
       >
         <PaymentProviderCards shop={shop} setShop={setShop} />
+      </Section>
+
+      <Section id={SECTION_IDS.domain} title="Свой домен">
+        <DomainSettings shop={shop} setShop={setShop} />
       </Section>
     </div>
   );

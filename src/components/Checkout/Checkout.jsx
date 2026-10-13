@@ -21,6 +21,7 @@ import {
 import { useCartRefresh } from './useCartRefresh';
 import ShopSupport, { hasShopSupport } from './ShopSupport';
 import styles from './checkout.module.css';
+import { shopPath } from '../Storefront/storefrontPaths';
 
 const DELIVERY_QUOTE_DEBOUNCE_MS = 300;
 // Комментарий — свободный текст для продавца; длинные простыни ему не нужны.
@@ -62,7 +63,7 @@ const apiErrorText = (err) => {
 
 const CheckoutForm = ({ shop, slug }) => {
   const { items, count, totalKopecks, syncWithProducts } = useCart(slug);
-  const shopBase = `/shop/${slug}`;
+  const shopBase = shopPath(slug);
   // Корзина из localStorage могла устареть — сверяем со свежим каталогом витрины;
   // recheck — повторная сверка, когда бэк отклонил заказ (см. handleSubmit).
   const { removedNames, recheck } = useCartRefresh(slug, items, syncWithProducts);
@@ -210,7 +211,7 @@ const CheckoutForm = ({ shop, slug }) => {
       <div className={styles.page} id="top">
         <div className={styles.inner}>
           <div className={styles.topBar}>
-            <Link className={styles.back} to={`${shopBase}/cart`}>
+            <Link className={styles.back} to={shopPath(slug, 'cart')}>
               ← В корзину
             </Link>
           </div>
@@ -275,7 +276,7 @@ const CheckoutForm = ({ shop, slug }) => {
         marketingConsent,
         acceptTerms,
         // Сюда Т-Банк вернёт покупателя (бэк допишет ?order=…&status=success|fail).
-        returnUrl: `${window.location.origin}/shop/${slug}/success`,
+        returnUrl: `${window.location.origin}${shopPath(slug, 'success')}`,
       });
       if (data?.paymentUrl) {
         // Корзину не чистим: если оплата сорвётся, покупатель вернётся к ней.
@@ -313,7 +314,7 @@ const CheckoutForm = ({ shop, slug }) => {
     <div className={styles.page} id="top">
       <div className={styles.inner}>
         <div className={styles.topBar}>
-          <Link className={styles.back} to={`${shopBase}/cart`}>
+          <Link className={styles.back} to={shopPath(slug, 'cart')}>
             ← В корзину
           </Link>
         </div>
@@ -529,7 +530,7 @@ const CheckoutForm = ({ shop, slug }) => {
             <span className={styles.checkText}>
               Я принимаю условия{' '}
               <Link
-                to={`${shopBase}/offer`}
+                to={shopPath(slug, 'offer')}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.inlineLink}
@@ -538,7 +539,7 @@ const CheckoutForm = ({ shop, slug }) => {
               </Link>{' '}
               продавца и подтверждаю, что ознакомлен с{' '}
               <Link
-                to={`${shopBase}/privacy`}
+                to={shopPath(slug, 'privacy')}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.inlineLink}

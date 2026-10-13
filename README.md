@@ -25,7 +25,9 @@ pnpm preview               # посмотреть собранный dist/
 
 | Переменная | Что это |
 | --- | --- |
-| `VITE_API_URL` | origin бэкенда без слэша на конце, например `http://localhost:8090` |
+| `VITE_API_URL` | origin бэкенда без слэша на конце, например `http://localhost:8090`; пусто — тот же origin (за гейтвеем, на стенде и в проде) |
+| `VITE_PLATFORM_HOSTS` | хосты платформы через запятую; на любом другом хосте фронт открывает витрину магазина с этим доменом; пусто — свои домены выключены |
+| `VITE_CUSTOM_DOMAIN_TARGET` | куда мерчанту направить CNAME своего домена (подсказка в «Настройках»); пусто — без подсказки |
 | `VITE_PLATFORM_OPERATOR_NAME` | оператор платформы (организация или ИП) — подвал, 404, политика |
 | `VITE_PLATFORM_OPERATOR_INN` | ИНН оператора |
 | `VITE_PLATFORM_OPERATOR_OGRN` | ОГРН / ОГРНИП оператора |
@@ -45,6 +47,23 @@ docker run -p 8080:80 marketplace-front
 ```
 
 Образ — nginx со статикой; любой путь отдаёт `index.html` (SPA), `/assets/*` кэшируются на год.
+
+## Деплой
+
+Фронт — отдельный контейнер без публичного адреса: снаружи до него доходит только гейтвей
+(`marketplace-gateway`, репозиторий `marketplace-getaway`), он же отдаёт `/api/*` бэкенду. Поэтому
+`VITE_API_URL` в деплое пустой. Railway: сборка и healthcheck — в `railway.toml`, `VITE_*` — переменные
+сервиса (Railway передаёт их в сборку как build-args), приватный адрес `front.railway.internal:80`
+(nginx слушает и IPv6). Свой сервер — см. README гейтвея.
+
+## Свой домен магазина
+
+Мерчант указывает домен в «Настройках» (`PUT /api/merchant/shop/domain`). Если страница открыта не на хосте
+из `VITE_PLATFORM_HOSTS` (и не на localhost), `index.jsx` до первого рендера спрашивает
+`GET /api/public/domains/resolve?domain=<host>` и монтирует витрину этого магазина с корня:
+`/`, `/product/:productId`, `/cart`, `/checkout`, `/success`, `/offer`, `/privacy`. Платформенных страниц
+(главная, вход, кабинет) на таком домене нет. Ссылки витрины строит `shopPath(slug, sub)` из
+`storefrontPaths.js` — он сам выбирает `/shop/{slug}/…` или `/…`.
 
 ## Маршруты
 

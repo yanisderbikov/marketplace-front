@@ -17,7 +17,7 @@ import { useLikes } from '../../hooks/useLikes';
 import SiteHeader from '../shared/SiteHeader/SiteHeader';
 import NotFound from '../NotFound/NotFound';
 import ShopFooter from './ShopFooter';
-import { LIKED_PARAM, likedPath, shopBase, tgLink } from './storefrontPaths';
+import { LIKED_PARAM, customDomainShop, likedPath, shopBase, shopPath, tgLink } from './storefrontPaths';
 import styles from './StorefrontLayout.module.css';
 
 const HeartIcon = ({ filled }) => (
@@ -107,12 +107,14 @@ const ChunkLoader = ({ holdFooter }) => {
  * .main, поэтому страницам не нужно отступать от верха самим.
  */
 const StorefrontLayout = () => {
-  const { slug } = useParams();
+  // На своём домене магазина маршрут витрины — корень, без :slug в адресе.
+  const params = useParams();
+  const slug = params.slug ?? customDomainShop();
   const location = useLocation();
   const navigationType = useNavigationType();
   const [searchParams] = useSearchParams();
-  // Index-маршрут /shop/:slug — каталог (useMatch по умолчанию требует точного совпадения).
-  const onCatalog = Boolean(useMatch('/shop/:slug'));
+  // Index-маршрут витрины — каталог (useMatch по умолчанию требует точного совпадения).
+  const onCatalog = Boolean(useMatch(customDomainShop() ? '/' : '/shop/:slug'));
   const likedActive = onCatalog && searchParams.get(LIKED_PARAM) === '1';
   const base = shopBase(slug);
 
@@ -331,7 +333,7 @@ const StorefrontLayout = () => {
       </Link>
       <Link
         className={styles.headerIcon}
-        to={`${base}/cart`}
+        to={shopPath(slug, 'cart')}
         aria-label={`Корзина${count ? `, товаров: ${count}` : ''}`}
       >
         <CartIcon />

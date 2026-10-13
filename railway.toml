@@ -1,0 +1,10 @@
+# Railway: сборка по Dockerfile. Сервис приватный — снаружи до него ходит только гейтвей.
+# VITE_* задаются переменными сервиса: Railway передаёт их в сборку как build-args.
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+healthcheckPath = "/"
+healthcheckTimeout = 60
+restartPolicyType = "ON_FAILURE"

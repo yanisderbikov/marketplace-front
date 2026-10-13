@@ -5,6 +5,10 @@ import api from '../apiClient';
 
 const shopPath = (slug) => `/api/public/shops/${encodeURIComponent(slug)}`;
 
+/** Чья витрина на своём домене: { slug, domain }; домен не привязан или магазин выключен — 404. */
+export const resolveDomain = (domain) =>
+  api.get('/api/public/domains/resolve', { params: { domain } }).then((res) => res.data);
+
 /** Витрины для главной: PublicShopCardDTO[] (активные магазины с ≥1 активным товаром). */
 export const getPublicShops = () => api.get('/api/public/shops').then((res) => res.data);
 

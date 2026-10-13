@@ -6,6 +6,7 @@ import { formatPrice } from '../../shared/money';
 import { clearCheckoutFormComment, markOrderHandled, wasOrderHandled } from './checkoutFormStorage';
 import ShopSupport, { hasShopSupport } from './ShopSupport';
 import styles from './checkout.module.css';
+import { shopPath } from '../Storefront/storefrontPaths';
 
 // Т-Банк возвращает покупателя сюда раньше, чем до бэка доходит вебхук с
 // подтверждением. Поэтому статус не берём из URL (status=success — лишь
@@ -22,7 +23,7 @@ const CheckoutSuccess = () => {
   const orderNumber = searchParams.get('order')?.trim().toUpperCase() || null;
   // status=fail — Т-Банк вернул по FailURL: платёж не прошёл, опрашивать нечего.
   const isFail = searchParams.get('status') === 'fail';
-  const shopBase = `/shop/${slug}`;
+  const shopBase = shopPath(slug);
 
   const [order, setOrder] = useState(null);
   const [polling, setPolling] = useState(Boolean(orderNumber));
@@ -106,7 +107,7 @@ const CheckoutSuccess = () => {
   if (order?.shopSlug && !orderInThisShop) {
     return (
       <Navigate
-        to={{ pathname: `/shop/${order.shopSlug}/success`, search: `?${searchParams.toString()}` }}
+        to={{ pathname: shopPath(order.shopSlug, 'success'), search: `?${searchParams.toString()}` }}
         replace
       />
     );
@@ -146,7 +147,7 @@ const CheckoutSuccess = () => {
   );
 
   const toCart = (label) => (
-    <Link className={styles.primaryLink} to={`${shopBase}/cart`}>
+    <Link className={styles.primaryLink} to={shopPath(slug, 'cart')}>
       <span>{label}</span>
       <span className={styles.ctaArrow} aria-hidden="true">→</span>
     </Link>
