@@ -78,8 +78,12 @@ export const selectPaymentProvider = (provider) =>
   api.put('/api/merchant/shop/payment/provider', { provider }).then((res) => res.data);
 
 /**
- * Свой домен витрины: { domain } → MerchantShopDTO. Пусто — отвязать. Бэк приводит домен к виду
- * без схемы, пути и www (кириллица — в punycode); 400 — некорректный, 409 — у другого магазина.
+ * Свой домен витрины: { domain } → ShopDomainDTO { domain, status, message, records }. Бэк подключает
+ * домен к гейтвею платформы и сразу отдаёт DNS-записи для регистратора. Пусто — отвязать.
+ * 400 — некорректный домен, 409 — у другого магазина, 502 — не удалось подключить (домен не сохранён).
  */
 export const saveDomain = (domain) =>
   api.put('/api/merchant/shop/domain', { domain }).then((res) => res.data);
+
+/** DNS-записи и статус своего домена: ShopDomainDTO; status NONE — домен не привязан. */
+export const getDomain = () => api.get('/api/merchant/shop/domain').then((res) => res.data);

@@ -1,0 +1,90 @@
+.dns {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dnsHead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.dnsTitle {
+  font-weight: 700;
+  word-break: break-all;
+}
+
+.dnsTitle a {
+  color: inherit;
+}
+
+.badgeWait {
+  background: #b8860b;
+}
+
+.tableWrap {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.table th {
+  text-align: left;
+  font-weight: 600;
+  color: #8c8c8c;
+  padding: 6px 8px;
+  border-bottom: 1px solid #eee;
+}
+
+.table td {
+  padding: 8px;
+  border-bottom: 1px solid #f2f2f2;
+  vertical-align: top;
+}
+
+.copy {
+  all: unset;
+  cursor: copy;
+  word-break: break-all;
+}
+
+.copy code {
+  font-size: 0.8rem;
+  background: #f4f4f4;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.copy:hover code,
+.copy:focus-visible code {
+  background: #e8e8e8;
+}
+
+.purpose {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.75rem;
+  color: #8c8c8c;
+}
+
+.state {
+  white-space: nowrap;
+}
+
+.ok {
+  color: #2f7d4a;
+  font-weight: 600;
+}
+
+.wait {
+  color: #8c8c8c;
+}

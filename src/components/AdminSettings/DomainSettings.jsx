@@ -1,25 +1,104 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import config from '../../config';
-import { saveDomain } from '../../services/merchantShop';
+import { getDomain, saveDomain } from '../../services/merchantShop';
 import { errorMessage } from '../../shared/errors';
 import styles from './AdminSettings.module.css';
+import own from './DomainSettings.module.css';
+
+// ShopDomainDTO.status → подпись и цвет плашки.
+const STATUS = {
+  PENDING: { label: 'ждём DNS', className: own.badgeWait },
+  ACTIVE: { label: 'работает', className: styles.badgeOk },
+  ERROR: { label: 'ошибка', className: styles.badgeOff },
+};
+
+const PURPOSE = {
+  ROUTING: 'направляет домен на витрину',
+  VERIFICATION: 'подтверждает, что домен ваш',
+};
+
+const copy = async (value) => {
+  try {
+    await navigator.clipboard.writeText(value);
+    toast.success('Скопировано');
+  } catch {
+    toast.error('Не удалось скопировать — выделите текст вручную');
+  }
+};
+
+const CopyCell = ({ value }) => (
+  <button type="button" className={own.copy} onClick={() => copy(value)} title="Скопировать">
+    <code>{value}</code>
+  </button>
+);
+
+/** DNS-записи для регистратора: тип, имя, значение (по клику копируется) и видна ли уже запись. */
+const DnsRecords = ({ records }) => (
+  <div className={own.tableWrap}>
+    <table className={own.table}>
+      <thead>
+        <tr>
+          <th>Тип</th>
+          <th>Имя</th>
+          <th>Значение</th>
+          <th aria-label="Статус" />
+        </tr>
+      </thead>
+      <tbody>
+        {records.map((r) => (
+          <tr key={`${r.type}-${r.fqdn}`}>
+            <td><b>{r.type}</b></td>
+            <td><CopyCell value={r.host} /></td>
+            <td>
+              <CopyCell value={r.value} />
+              <span className={own.purpose}>{PURPOSE[r.purpose] ?? ''}</span>
+            </td>
+            <td className={own.state}>
+              {r.ok === true && <span className={own.ok}>✓ видна</span>}
+              {r.ok === false && <span className={own.wait}>нет в DNS</span>}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+);
 
 /**
  * Свой домен витрины: магазин открывается на нём с корня (shop.example.ru/product/…),
- * адрес /shop/{slug} на платформе тоже продолжает работать. Домен заработает, когда
- * его DNS будет смотреть на гейтвей платформы — подсказка берётся из VITE_CUSTOM_DOMAIN_TARGET.
+ * адрес /shop/{slug} на платформе тоже продолжает работать. После сохранения бэк подключает
+ * домен к гейтвею платформы и сразу отдаёт DNS-записи, которые мерчант добавляет у регистратора.
  */
 const DomainSettings = ({ shop, setShop }) => {
   const saved = shop.customDomain ?? '';
   const [domain, setDomain] = useState(saved);
   const [error, setError] = useState(null);
   const [saving, setSaving] = useState(false);
+  // ShopDomainDTO: { domain, status, message, records }
+  const [dns, setDns] = useState(null);
+  const [checking, setChecking] = useState(false);
 
   useEffect(() => {
     setDomain(saved);
     setError(null);
   }, [saved]);
+
+  const check = useCallback(async ({ quiet = false } = {}) => {
+    setChecking(true);
+    try {
+      setDns(await getDomain());
+    } catch (err) {
+      if (!quiet) toast.error(errorMessage(err, 'Не удалось проверить домен'));
+    } finally {
+      setChecking(false);
+    }
+  }, []);
+
+  // Домен уже привязан — сразу показываем записи и их статус.
+  useEffect(() => {
+    if (saved) check({ quiet: true });
+    else setDns(null);
+  }, [saved, check]);
 
   const dirty = domain.trim() !== saved;
   const unbinding = !domain.trim() && Boolean(saved);
@@ -33,9 +112,10 @@ const DomainSettings = ({ shop, setShop }) => {
     setSaving(true);
     setError(null);
     try {
-      const updated = await saveDomain(domain.trim());
-      setShop(updated);
-      toast.success(unbinding ? 'Домен отвязан' : 'Домен сохранён');
+      const result = await saveDomain(domain.trim());
+      setDns(result.domain ? result : null);
+      setShop((prev) => ({ ...prev, customDomain: result.domain }));
+      toast.success(unbinding ? 'Домен отвязан' : 'Домен подключён — добавьте DNS-записи');
     } catch (err) {
       const message = errorMessage(err, 'Не удалось сохранить домен');
       setError(message);
@@ -44,6 +124,8 @@ const DomainSettings = ({ shop, setShop }) => {
       setSaving(false);
     }
   };
+
+  const status = dns && STATUS[dns.status];
 
   return (
     <form onSubmit={handleSubmit} noValidate>
@@ -62,31 +144,43 @@ const DomainSettings = ({ shop, setShop }) => {
           aria-invalid={Boolean(error)}
         />
         {error && <span className={styles.fieldError}>{error}</span>}
-        {saved && !error && (
+        {!saved && !error && (
           <span className={styles.fieldHint}>
-            Витрина: <a href={`https://${saved}`} target="_blank" rel="noreferrer">https://{saved}</a>
+            Поддомен (shop.example.ru или www.example.ru) подключить проще всего: у корневого домена
+            CNAME-запись поддерживают не все регистраторы.
           </span>
         )}
       </label>
 
-      {config.customDomainTarget ? (
-        <p className={styles.fieldHint}>
-          В DNS вашего домена создайте запись <b>CNAME</b> на <b className={styles.keepCase}>{config.customDomainTarget}</b>{' '}
-          (для корневого домена без поддомена — запись <b>A</b> на IP этого адреса). Сертификат HTTPS выпустится сам
-          при первом заходе, обычно в течение нескольких минут после обновления DNS.
-        </p>
-      ) : (
-        <p className={styles.fieldHint}>
-          После сохранения напишите в поддержку платформы — пришлём DNS-запись, которую нужно добавить у регистратора.
-        </p>
-      )}
-
       <div className={styles.cardActions}>
         {dirty && <span className={styles.dirtyNote}>Есть несохранённые изменения</span>}
         <button type="submit" className={styles.saveBtn} disabled={saving || !dirty}>
-          {saving ? 'Сохраняем…' : unbinding ? 'Отвязать домен' : 'Сохранить домен'}
+          {saving ? 'Подключаем…' : unbinding ? 'Отвязать домен' : 'Сохранить домен'}
         </button>
       </div>
+
+      {saved && dns && (
+        <div className={own.dns}>
+          <div className={own.dnsHead}>
+            <span className={own.dnsTitle}>
+              <a href={`https://${saved}`} target="_blank" rel="noreferrer">{saved}</a>
+            </span>
+            {status && <span className={`${styles.badge} ${status.className}`}>{status.label}</span>}
+            <button type="button" className={styles.linkBtn} onClick={() => check()} disabled={checking}>
+              {checking ? 'Проверяем…' : 'Проверить'}
+            </button>
+          </div>
+          {dns.records.length > 0 && (
+            <>
+              <p className={styles.fieldHint}>
+                Добавьте у регистратора домена (в разделе DNS-записей) {dns.records.length > 1 ? 'эти записи' : 'эту запись'}:
+              </p>
+              <DnsRecords records={dns.records} />
+            </>
+          )}
+          {dns.message && <p className={styles.fieldHint}>{dns.message}</p>}
+        </div>
+      )}
     </form>
   );
 };

@@ -15,8 +15,6 @@ const config = {
   // магазина: фронт спрашивает бэкенд, чья это витрина, и открывает её с корня.
   // Пусто — свои домены выключены, любой хост считается платформой.
   platformHosts: splitHosts(import.meta.env.VITE_PLATFORM_HOSTS),
-  // Куда мерчанту направить CNAME своего домена (подсказка в настройках). Пусто — подсказки нет.
-  customDomainTarget: (import.meta.env.VITE_CUSTOM_DOMAIN_TARGET || '').trim(),
 };
 
 export default config;
