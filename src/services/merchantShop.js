@@ -85,5 +85,8 @@ export const selectPaymentProvider = (provider) =>
 export const saveDomain = (domain) =>
   api.put('/api/merchant/shop/domain', { domain }).then((res) => res.data);
 
+/** Отвязать свой домен: витрина остаётся на адресе платформы. Ответ — ShopDomainDTO со status NONE. */
+export const unbindDomain = () => api.delete('/api/merchant/shop/domain').then((res) => res.data);
+
 /** DNS-записи и статус своего домена: ShopDomainDTO; status NONE — домен не привязан. */
 export const getDomain = () => api.get('/api/merchant/shop/domain').then((res) => res.data);

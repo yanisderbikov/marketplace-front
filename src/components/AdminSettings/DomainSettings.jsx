@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import { getDomain, saveDomain } from '../../services/merchantShop';
+import { getDomain, saveDomain, unbindDomain } from '../../services/merchantShop';
 import { errorMessage } from '../../shared/errors';
 import styles from './AdminSettings.module.css';
 import own from './DomainSettings.module.css';
@@ -77,6 +77,7 @@ const DomainSettings = ({ shop, setShop }) => {
   // ShopDomainDTO: { domain, status, message, records }
   const [dns, setDns] = useState(null);
   const [checking, setChecking] = useState(false);
+  const [unbinding, setUnbinding] = useState(false);
 
   useEffect(() => {
     setDomain(saved);
@@ -101,12 +102,31 @@ const DomainSettings = ({ shop, setShop }) => {
   }, [saved, check]);
 
   const dirty = domain.trim() !== saved;
-  const unbinding = !domain.trim() && Boolean(saved);
+  const cleared = !domain.trim() && Boolean(saved);
+  const busy = saving || unbinding;
+
+  const handleUnbind = async () => {
+    if (busy || !saved) return;
+    if (!window.confirm(`Отвязать домен ${saved}? Витрина останется доступна по адресу на платформе.`)) return;
+    setUnbinding(true);
+    setError(null);
+    try {
+      await unbindDomain();
+      setDns(null);
+      setShop((prev) => ({ ...prev, customDomain: null }));
+      toast.success('Домен отвязан');
+    } catch (err) {
+      toast.error(errorMessage(err, 'Не удалось отвязать домен'));
+    } finally {
+      setUnbinding(false);
+    }
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (saving || !dirty) return;
-    if (unbinding && !window.confirm(`Отвязать домен ${saved}? Витрина останется доступна по адресу на платформе.`)) {
+    if (busy || !dirty) return;
+    if (cleared) {
+      handleUnbind();
       return;
     }
     setSaving(true);
@@ -115,7 +135,7 @@ const DomainSettings = ({ shop, setShop }) => {
       const result = await saveDomain(domain.trim());
       setDns(result.domain ? result : null);
       setShop((prev) => ({ ...prev, customDomain: result.domain }));
-      toast.success(unbinding ? 'Домен отвязан' : 'Домен подключён — добавьте DNS-записи');
+      toast.success('Домен подключён — добавьте DNS-записи');
     } catch (err) {
       const message = errorMessage(err, 'Не удалось сохранить домен');
       setError(message);
@@ -154,8 +174,8 @@ const DomainSettings = ({ shop, setShop }) => {
 
       <div className={styles.cardActions}>
         {dirty && <span className={styles.dirtyNote}>Есть несохранённые изменения</span>}
-        <button type="submit" className={styles.saveBtn} disabled={saving || !dirty}>
-          {saving ? 'Подключаем…' : unbinding ? 'Отвязать домен' : 'Сохранить домен'}
+        <button type="submit" className={styles.saveBtn} disabled={busy || !dirty}>
+          {saving ? 'Подключаем…' : cleared ? 'Отвязать домен' : 'Сохранить домен'}
         </button>
       </div>
 
@@ -168,6 +188,14 @@ const DomainSettings = ({ shop, setShop }) => {
             {status && <span className={`${styles.badge} ${status.className}`}>{status.label}</span>}
             <button type="button" className={styles.linkBtn} onClick={() => check()} disabled={checking}>
               {checking ? 'Проверяем…' : 'Проверить'}
+            </button>
+            <button
+              type="button"
+              className={`${styles.linkBtn} ${own.unbind}`}
+              onClick={handleUnbind}
+              disabled={busy}
+            >
+              {unbinding ? 'Отвязываем…' : 'Отвязать'}
             </button>
           </div>
           {dns.records.length > 0 && (

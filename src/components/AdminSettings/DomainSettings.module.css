@@ -88,3 +88,13 @@
 .wait {
   color: #8c8c8c;
 }
+
+/* «Отвязать» — справа в шапке блока, красным: действие разрушительное. */
+.unbind {
+  margin-left: auto;
+  color: #b3261e;
+}
+
+.unbind:hover {
+  color: #7a1a12;
+}
