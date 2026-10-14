@@ -53,7 +53,8 @@ docker run -p 8080:80 marketplace-front
 (`marketplace-gateway`, репозиторий `marketplace-getaway`), он же отдаёт `/api/*` бэкенду. Поэтому
 `VITE_API_URL` в деплое пустой. Railway: сборка и healthcheck — в `railway.toml`, `VITE_*` — переменные
 сервиса (Railway передаёт их в сборку как build-args), приватный адрес `front.railway.internal:80`
-(nginx слушает и IPv6). Свой сервер — см. README гейтвея.
+(nginx слушает и IPv6). Прод (свой сервер): push в `main` → `.github/workflows/deploy.yml` собирает образ в GHCR
+(`VITE_*` — переменные репозитория GitHub) и по SSH перезапускает контейнер `marketplace-front`; подробности — README гейтвея.
 
 ## Свой домен магазина
 
