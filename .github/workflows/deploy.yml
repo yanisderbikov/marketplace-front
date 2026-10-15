@@ -1,6 +1,7 @@
-# Прод: push в main → образ в GHCR → по SSH на сервер (docker pull + run). Git на сервере не нужен.
-# Секреты репозитория: DEPLOY_HOST, DEPLOY_SSH_KEY (приватный ключ root@сервер).
-name: Deploy
+# Прод: push в main → образ в GHCR (ghcr.io/<owner>/<repo>:latest). Дальше сервер сам: раз в минуту
+# marketplace-deploy (marketplace-getaway/deploy/watcher.sh) тянет новый :latest и перекатывает контейнер.
+# Секретов и доступа к серверу у GitHub нет; git на сервере не нужен.
+name: Build image
 
 on:
   push:
@@ -49,19 +50,3 @@ jobs:
             VITE_PLATFORM_OPERATOR_INN=${{ vars.VITE_PLATFORM_OPERATOR_INN }}
             VITE_PLATFORM_OPERATOR_OGRN=${{ vars.VITE_PLATFORM_OPERATOR_OGRN }}
             VITE_PLATFORM_CONTACT_EMAIL=${{ vars.VITE_PLATFORM_CONTACT_EMAIL }}
-
-      - name: Deploy to server
-        env:
-          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
-          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
-          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GHCR_USER: ${{ github.actor }}
-          IMAGE_TAG: ${{ env.IMAGE }}:${{ github.sha }}
-        run: |
-          mkdir -p ~/.ssh && chmod 700 ~/.ssh
-          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/deploy_key && chmod 600 ~/.ssh/deploy_key
-          ssh-keyscan -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts 2>/dev/null
-          scp -i ~/.ssh/deploy_key deploy/remote.sh "root@$DEPLOY_HOST:/tmp/deploy-front.sh"
-          printf '%s' "$GHCR_TOKEN" | ssh -i ~/.ssh/deploy_key "root@$DEPLOY_HOST" \
-            "IMAGE='$IMAGE_TAG' NAME='marketplace-front' GHCR_USER='$GHCR_USER' \
-             RUN_ARGS='' HEALTH_URL='http://marketplace-front:80/' bash /tmp/deploy-front.sh"
